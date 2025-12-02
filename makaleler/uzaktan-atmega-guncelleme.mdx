@@ -1,0 +1,87 @@
+---
+id: uzaktan-atmega-guncelleme
+title: "AtMega İşlemcilerini Uzaktan Güncelleme: Donanımda FOTA Mimarisi"
+sidebar_label: Uzaktan AtMega Güncelleme
+sidebar_position: 13
+slug: /atmega-fota
+description: AtMega tabanlı IoT cihazlarında GSM üzerinden HEX dosyası indirerek SD kart aracılığıyla uzaktan firmware güncelleme (FOTA) sürecini, mimariyi ve teknik detayları anlatan kapsamlı teknik makale.
+tags:
+  - atmega
+  - fota
+  - uzaktan güncelleme
+  - iot
+  - firmware
+  - sd kart
+  - icsp
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# AtMega İşlemcileri Uzaktan Güncelleme
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/gunce-akkoyun-b100.png" alt="B100 Modülü" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+Birçok donanım geliştiricinin hayali uzaktan yazılım güncellenebilir cihazlar geliştirmektir. Sırf bu nedenle FPGA kullanan (sadece sensör okuyan sistemler için lüks bir çözüm olarak) bir çok geliştirici mevcuttur.
+
+IoT cihazlar geliştiren endüstriyel ve maker seviyesindeki geliştiriciler bu işlemin Wifi ve BT üzerinden yapılabildiğini ama işin biraz daha global boyuta taşındığı zaman (GSM IoT cihazlarda) ne derece komplike bir hal aldığını bildikleri için ihtiyaçları olmamasına rağmen daha gelişmiş işlemciler kullanmakta veya bu özelliği donanımlarına dahil etmemek yolunu seçmektedir.
+
+Konuyu biraz daha açmak gerekir ise sadece 1 sensör verisini (çeşitli iletişim kanalları ile I2C, SPI vb) okuyan sistemlerin gerek sensör kalibrasyonları gerekse IoT iletişim paketlerinin güncellenmesi gereken durumlarda sahaya giderek cihazları bir fiil güncellemektedir. Ne derece zahmetli bir işlem olduğunu anlatmama gerek yok diye düşünüyorum.
+
+Daha komplike sistemler için ARM tabanlı işlemciler (Rasp vb) verimli olsa da basit işlemler yapan sensör noktaları için bu çözümler hem lüks hemde maliyetli olmaktaydı.
+
+Bu nedenle bir süredir üzerinde çalıştığım sistemi sizlere anlatmak isterim.
+
+Ana işlemci olarak kullandığım AtMega2560 işlemcisi ile GSM IoT kanalını kullanarak internet üzerinden indirdiğim HEX dosyasını sistem içerisinde bulunan SD kart üzerine yazdırmakta (EEPROM testlerim devam ediyor) ve normalde kapalı durumda bulunan FOTA işlemcisini uyandırarak bu HEX dosyasını 2560 üzerine yakmayı başardım.
+
+Biraz teknik detaylardan bahsedelim.
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/fota-block-diagram.png" alt="FOTA Mimarisi" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+Güncelleme mimarisi 4 ana bölümden oluşmaktadır.
+
+1. İşlemciler
+
+Sistem üzerinde 2 adet işlemci bulunmaktadır. Bu işlemcilerden biri ana işlemci yani tüm ihtiyaçları karşılayan ve sistem içerisinde enerjili bulunan (uygulama durumuna göre uyuyan işlemci yapısıda kurgulanabilir) işlemci diğeri ise sadece uzaktan güncelleme işlemlerini kontrol eden FOTA işlemcisidir. Ben işlemlerimi standartlaştırma ve iletişim kanallarında zamanlama hatalarına yol açmaması için 7.3728Mhz hızında çalıştırdım ama FOTA işlemcisinin bünyesinde bulunan dahili kristal ile çalıştırılmasında sorun olmayacağını düşünmekteyim (test edilmedi).
+
+2. Güç Anahtarlama Sistematiği
+
+FOTA işlemcisini gerekli durumlarda çalıştırıp uyumasını sağlayan bir SR latch ve MOSFET den oluşan güç anahtarlama sistematiği.
+
+3. SD Kart Veri Depolama Sistematiği
+
+İnternet üzerinden indirilen firmware dosyalarının depolandığı bir SD kart (EEPROM da kullanılabilir ama bir miktar kod fazlalığına yol açar) ve bu SD kartı her iki işlemci de de kullanmamıza olanak tanıyan bir SPI anahtarlama sistematiği.
+
+4. ICSP Anahtarlama Sistematiği
+
+Firmware yazma ve işlemcileri tekil olarak dışardan programlarken hat karışmaması amacı ile yerleştirilmiş bir buffer sistematiği.
+
+## Sistem Çalışma Algoritması.
+
+Ana işlemci içerisinde yer alan firmware versiyon sabiti belirlenen günceleme denetim periodu ile sunuculara gönderilir. Örneğin ana işlemci versiyonu 01.00.00 olsun, bu versiyon bilgisi backend üzerinde çalışan end-point üzerinde gönderilir. Bu isteme cevap olarak backend sistemi bir versiyon kontrolü yapar ve yeni bir güncelleme olup olmadığını kontrol eder. Herhangi bir güncelleme yok ise güncel mesajı verir ve ana işlemci işlemlerine devam eder.
+
+Sistem üzerinde o cihaza ait bir güncelleme var ise back end isteğe bir token id ve yeni versiyon numarasını göndererek cevap verir.
+
+Yeni bir güncelleme olduğunu anlayan cihaz backend den aldığı token ile firmware sunucusundan gerekli dosyayı ister.
+
+Sistem üzerinde bulunan SD kart anahtarlama için kullanılmakta olan anahtar için yön seçim pinini aktif eder ve normalde ana işlemciye bağlı olmayan SD kartı aktif eder.
+
+Sunucu üzerinden indirilen dosyayı SD kart üzerine "firmware.hex" ismi ile kaydeder. Aynı zamanda yeni indirilen firmware bilgilerini firmware.info dosyası üzerinde bilgi güncellemesi yapar.
+
+İndirme ve bilgi güncelleme işlemi tamamlandıktan sonra FOTA işlemci güç anahtarlama yaparak FOTA işlemciyi enerjilendirir.
+
+Enerjilenen FOTA işlemcisi dosya kontrolünü yapar ve tüm şartlar uygun ise ICSP buffer sistemini tetikleyerek FOTA ile ana işlemci bağlantısı yapar.
+
+ICSP bağlantısı kurulan sistem ana işlemciyi resete çekerek çalışmasını durdurur.
+
+SD kart üzerinden okunan dosya ana işlemci üzerine yakılır ve kontrol edilir.
+
+Kontrol işlemi sonucunda tüm işlemler düzgün olarak çalıştı ise onay mesajı verilerek FOTA güç sistematiği üzeriden FOTA enerjisi kesilir ne ana işlemci reset modundan çıkartılır.
+
+Böylece FOTA işlemcisi kendisini kapatmış olur.
+
+Tekrar çalışmaya başlayan ana işlemci yukarıda bahsedilen kontrolü yaparak tekrar rutin çalışmasına devam eder.
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/b100-module.png" alt="B100 Modülü" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+Yaklaşık olarak 10$ lık bir eklenti ile geliştirilen bu sistem ile uzaktan sensör noktalarınızı yeniden programlayabilirsiniz. Konu ile ilgili sorularınızı yanıtlamaktan mutluluk duyarım unutmayalım bilgi paylaştıkça çoğalır.

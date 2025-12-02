@@ -1,0 +1,274 @@
+# ASP’yi Anlama
+
+## İnternet protokollerine bakış ve HTTP
+
+İlerideki bölümler, sunucu taraflı programlama dillerinden ASP’yi (Active Server Pages) ayrıntılı olarak anlatmak üzere hazırlanmıştır. Fakat burada şu soru olabilir : Bir sunucu taraflı programlama dili tam olarak nedir ?
+
+Sunucu taraflı programlamanın ne demek olduğunu anlamak için isterseniz ilk önce client taraflı (istemci taraflı) programlama dillerinden HTML dilinin çalışma prensibine bakalım.
+
+HTTP (HyperText Transfer Protokol), web üstünde bilgi dağıtımı için kullanılan temel protokoldür. HTTP, dosyaların kolaylıkla transfer edilebilmesi için oldukça etkin ve hızlıdır. HTTP diğer web teknolojileri ile birlikte gelişmektedir. HTTP’nin temel özellikleri HTTP 0.9 da bulunmaktadır. HTTP’nin 0.9 sürümünde birçok eksikler bulunuyordu. Bunlardan başlıcaları içerik tiplemesine (content typing) izin vermemesi ile istek ve cevapların sağlanmasında meta-bilgilerin kullanılması için koşullar olmamasıdır.
+
+HTTP/0.9 un eksikliklerini gidermek için HTTP’nin şu anda kullandığımız sürümü olan HTTP/1.0 geliştirilmiştir. Bu sayede Content-Type (içerik tipi) alanı bulunan başlıklara ve diğer tipte meta bilgilerine izin verilmiştir. Aktarılan verinin tipi Content-Type alanında tanımlanır. Ayrıca dil, verinin kodlanma tipi ve durum bilgisi gibi veri hakkında başka bilgiler de sağlayabilirsiniz.
+
+Çoğu web kullanıcısı ve yayımcısının HTTP’de istediği özelliklerden biri de güvenliktir. Web yayımcıları ve kullanıcıları güvenli olarak işlemleri (transaction) iletebilmeyi istemektedir. Elektronik ticaretin yaygın olarak kullanımını sağlamak için güvenlikle ilgili anahtar nokta, işlemlerin güvenliğini sağlayabilme ve kodlayabilmektir. Şu anda HTTP’nin güvenlik özellikli sürümleri için çeşitli taslaklar bulunmaktadır. Bu özelliklerden birisi kabul gördüğünde HTTP kullanan güvenlikli işlemler bir hayal olmaktan çıkacaktır.
+
+### Bağlantısız protokoller ve bağlantılı protokoller.
+
+HTTP etkin bir protokoldür çünkü hızlı, rahat ve ayrıca yeteneklidir. Bu hız, yeteneklilik ve kuvvetliliği sağlayabilmek için HTTP, bağlantısız (connectionless) ve durumu olmayan (stateless) bir protokol olarak tanımlanmıştır.
+
+HTTP bağlantısız bir protokoldür. Bağlantısız protokoller, bağlantı temelli protokollerden isteklere verilen cevap karşılıklar noktasında ayrılırlar. Bağlantısız bir protokolde istemci sunucuya bağlanır, bir istekte bulunur, cevap alır ve ardından diğer isteklere hizmet vermek için bağlantıyı keser.
+
+Bağlantı temelli bir protokol örneği FTP’dir. Bir FTP sunucusuna bağlanıldığında dosya aktarımı bittikten sonra bile bağlantı devam eder. Bu bağlantının korunabilmesi için sistem kaynakları gerekir. Yani çok sayıda açık bağlantı tutmak sunucunun kolaylıkla çökmesine sebep olabilir. Sonuç olarak FTP sunucularının çoğu belirli bir anda en fazla 250 açık bağlantıya izin verecek şekilde ayarlanmaktadır. Bunun anlamı FTP sunucusuna aynı anda en fazla 250 kullanıcı bağlanarak işlem yapabileceğidir (bu özellik çeşitli FTP sunucularında değişiklik göstermektedir). Bu sorunla beraber doğru sonlandırılmayan bağlantılarda problemler yaratabilmektedir. Bu tip protokollerde işlemler kontrolden çıkarak sunucunun çökmesi gibi istenmeyen sonuçlar görülmektedir.
+
+Tersine HTTP bağlantısız bir protokoldür. İstemciler sunucuya bağlanır bağlandıklarında istekte bulunur, cevabını alır ve ardında bağlantıyı keser. Bağlantı devamlı korunmadığı için işlemler tamamlanırken hiçbir sistem kaynağı meşgul edilmez. Sonuç olarak HTTP sunucuları sadece aktif bağlantılarla sınırlıdır ve az bir sistem yükü ile binlerce işleme olanak tanımaktadır. Bağlantısız protokollerin dezavantajı ise aynı istemci bir daha bilgi isteğinide bulunduğunda bağlantının yeniden kurulması gereğidir. İstemci browserlar bu yükü en aza indirebilmek için alınan verileri saklayarak yine aynı veri istendiğinde kullanan sistemler geliştirmişlerdir.
+
+### Durumu olmayan protokoller ve durumu olan protokoller.
+
+HTTP durumu olmayan (stateless) bir protokoldür. Durumu olamayan protokoller durumlu protokollerden isteklerle ilgili bilgilerin tutuluş şeklinde farklılık gösterirler. Durumu olmayan protokollerde işlem işlendikten sonra işlem hakkında bilgi saklanmaz. Durumlu protokollerde ise işlem işlendikten sonra durum bilgisi saklanır.
+
+Durumlu protokol kullanan sunucular işlemlerle ilgili bağlantının durumu, çalışmakta olan işler, bu işlerin durumu vs. gibi bilgileri tutar. Genel olarak bu durum bilgisi bellekte kalır ve sistem kaynaklarını kullanır. İstemci durumlu bir protokol kullanan sunucu ile bağlantısını kestiğinde bu durum bilgisi silinmeli ve oturum sonlanmalıdır.
+
+Durumu olamaya protokoller küçük hacimlidir. Bu protokolleri kullanan sunucular tamamlanmış işlemler ve işler hakkında hiçbir bilgi tutmazlar. Bir istemci durumu olmayan protokol kullanan sunucu ile olan bağlantısını kestiğinde hiçbir verinin silinmesine ya da oturumun sonlandırılmasına gerek kalmaz. Durum bilgisinin kaydının tutulmaması sayesinde sunucu üzerine daha az yük biner ve sunucular işlemleri hızlı bir şekilde işleyebilirler. Web yayımcıları için bu protokolün dezavantajı ise eğer web dokümanları için durum bilgisinin tutulmasını istiyorsanız bunun doküman başlığında meta-bilgi şeklinde belirtilmesinin gerektiğidir.
+
+## HTML nedir ?
+
+Tim Berners-Lee webi tasarlarken herkesin webde yayımcılık yapmasına olanak sağlayacak kadar genel ve kullanımı kolay bir arabirimi olacak şekilde tasarladı. Cern’deki çalışanlarla beraber HTML dilini geliştirdiler. HTML dili SGML’nin (Standart Genelleştirilmiş Anlamlandırma Dili) bir alt kümesi olarak tasarlanmıştır. HTML için SGML’nin temel alınması web için geliştirilen dilin platformlar arası bir çözüm olarak kendini kanıtlamış sağlam bir standartta kök salmasına sebep olmuştur.
+
+HTML dili oluşturulurken SGML’den sadece gerekli olan alanlar alınmıştır. Bu şekilde HTML’in karışıklığı ve dokümanların network üzerinden transferi için harcanan kaynakların miktarı bir hayli azalmıştır. HTML için SGML’nin baz alınmasının bir diğer avantajı ise doküman tanım tiplerinin (DTD) HTML standartlarını genişletmek için kolaylık sağlamasıdır. Sonuçta HTML’I geliştirenlerin amacı zaman içinde geliştirilebilen basit bir dil yazmaktı.
+
+HTML dilinin işletilme prensibi bir hayli basittir; Kullanıcı gözatıcısından (web browser) bir url girdiği zaman (URL hakkında daha fazla bilgi için EK-1 : URL’ler Hakkında Ayrıntılı Bilgi) e bakınız) istek bu url’ye sahip sunucuya gider . Örneğin “http://www.akkoyun.net/test.htm” şeklindeki bir giriş olduğu zaman gözatıcı, serverdan “test.htm” dosyasını ister. Server ise bu dosyayı kendi iç dosya yapısında arayarak bulur ve dosyayı aynen gözatıcıya yollar.
+
+Eğer istek sonrasında dosya bulunamaz ise server standart hata kodlarından oluşan kod numaralarından sayfa bulunamadı (“page can not found”) hatası olan “404” kodlu hatayı gözatıcıya HTTP başlık bilgisi olarak geri yollar. Bu hata kodunu da gözatıcı kendine göre yorumlayarak gözatıcıda gösterir.
+
+Dosya sistemi tarafından bulunan doküman gözatıcıya yollanır. Gözatıcıya gelen HTML belgesi gözatıcı tarafından yorumlanarak işletilir ve ekranda gösterilir.
+
+Bu konuda üzerine basarak belirtmekte fayda gördüğüm nokta HTML’in sunucu tarafında işletilmeyip tamamen istemci tarafında (client) işletiliyor olmasıdır. Böylece sunucu üzerinde hiçbir işlem yapılmadığı için sunucuya yük binmeyecektir.
+
+## ASP’nin Doğuşu
+
+HTML in gelişmesi ile birlikte kullanıcılara web sayfalarına bilgi girebilmelerine olanak tanında (```<input>``` elementi yardımı ile). Bu şekilde bir çok uygulama geliştirildi çünkü artık kullanıcı da sunucuya bilgi gönderebiliyordu. Fakat çoğu uygulamada bu kullanıcıdan gelen bilgilerin anında işlenmesi ve yeniden bir text bazlı HTML dokümanı hanine getirilmesi gerekiyordu. Bu ise hiç hızlı bir yöntem değildi.
+
+Bu zorluğu aşmak isteyen geliştiriciler kolları sıvayarak CGI (Common Gateway Interface) arabirimini geliştirmeye başladılar. Bu arabirimi standart haline getirdiler ve tamamen “C” dili üzerine kurdular. “Cgi-bin” dizini de bu şekilde doğmuştur (“bin” terimi derlenmiş “C” kodu olmasından dolayı “binary code” anlamında eklenmiştir). İlk uygulamalar derlenmiş ufak programcıklar halinde olmuştu. Fakat bu haliyle bile kullanışlı değildi çünkü dosya içinde yapılacak en ufak değişiklikte bile yeniden derlenmesi gerekmekteydi. Buda CGI’ın kullanımını olumsu yönde etkiliyordu.
+
+Bu kısıtlamaları kendine sınır olarak görmeyen geliştiriciler yeni bir script dili geliştirdiler. Bu dil “Practical Extraction and Reporting Language” yani PERL adını aldı. Bu dil sunucu ile iletişim halinde olan ilk dildi yani “C veya C++” dilleri ile yazılan scriptin her seferinde derlenmesi derdi ortandan kaldırılmış oldu.
+
+Perl hala popüler bir dil olarak çoğu uygulamada özellikle de Unix ve Linux tabanlı sistemlerde kullanılmaktadır.
+
+### Server-Tabanlı Script Teknolojileri
+
+Şimdiye kadar anlattığım CGI dilleri web sunucusu üzerine bir yama yapmadan yada ekstra bir program yüklemeden çalışmamaktadır. Bu programlar kullanıcıdan gelen isteği algılar ve isteğe göre dosyayı okur daha sonra onu sunucu içinde işler ve bir çıkış dosyası oluşturarak kullanıcıya sunarlar.
+
+Perl ilk popüler sunucu-tabanlı uygulama geliştirme dili olarak literatüre geçmiştir. Fakat bu dil çok fazla gelişim geçirmiştir. Özellikle de Unix ve Linux tabanlı sunucularda yeni nesil programlama dili olan PHP (Personal Home Page) ye yerini bırakmıştır.
+
+Microsoft firması web sunucu sektöründeki en önemli atılımını “Windows NT 3.51” ve bu işletim sistemine entegre halde olan “Internet Information Server 1.0” (IIS) sayesinde yapmıştır. Bu yazılım geçmişe dönük olarak CGI desteklemekle (her şekilde C ve C++ dili ile geliştirilmiş uygulamaları) birlikte yeni bir arabirim içeriyordu.
+
+Bu arabirime “Internet Server Aplication Programing Interface” yani ISAPI adı verilmiştir. Bu arabirim sayesinde web sunucu perl dilinin tüm esnekliği standart hale getirilmiş oldu. Bu atılımla birlikte tüm yazılım geliştiriciler ISAPI ile uyumlu olan yazılımlar geliştirmeye başladılar.
+
+Microsoft ISAPI ile beraber yeni teknoloji olan ASP’yi duyurdu. ASP teknolojisi IIS ile ISAPI sayesinde bağlanmış oldu. ASP den önce en çok “Internet Database Connector” (IDC) kullanılmaktaydı.
+
+Aşağıdaki diyagramda (Diyagram 1 : Microsoft Sunucu Yapısı.) Microsoft server yapısı ayrıntılı olarak anlatılmıştır.
+
+    Diyagram 1 : Microsoft Sunucu Yapısı.
+
+### ASP ile IIS ilişkisi
+
+ASP sadece kendisi için yazılmış olan DLL i kullanır (asp.dll). Bu dosya standart olarak web sunucu da yer almaktadır (sadece IIS 1.0 sonrası) (Winnt\System32\ inetsrv dizininde yer almaktadır). Bu DLL sadece ASP dosyalarını (genellikle .ASP uzantılıdırlar) okuyup içerisindeki script komutlarını işlemek ve sonuçlarını HTML ve metin içeriği ile birlikte Web gözatıcısına yollamak görevini üstlenir.
+
+### IIS Uygulama Yapıları
+
+IIS içerisindeki işlemleri daha iyi anlayabilmek için uygulama yapılarının Windows içinde nasıl çalıştığını anlamalıyız. Web sunucudaki (IIS) her web sitesinin sunucu üzerinde yer alan bir kök dizini vardır. Varsayılan (Default) web sitesi otomatik olarak “c:\inetpub\wwwroot” dizinini kendine kök dizini atar (değiştirilebilir). Her yeni açılacak web sitesi için bir kök dizini belirlenmesi zorunludur. Sunucu üzerindeki web sitelerini görmek için IIS yönetim arabirimi olan “Internet Service Manager” programı kullanılır.
+
+    Resim 1 : Microsoft Internet Service Manager.
+
+IIS üzerinden default web sitesine sağ tıklayıp özellikler seçeneğini seçtiğimiz zaman, açılacak olan “default web site özellikleri” ekranından “home directory” tabına tıklanır. Gelecek olan sekmeden “configration” butonuna basarak uzantılar ile ilişkilendirilen arabirimler görülebilir (ISAPI yapısı “Diyagram 1 : Microsoft Sunucu Yapısı.” de görüldüğü gibidir).
+
+    Resim 2 : ISAPI Yapısı.
+
+Resimden de (Resim 2 : ISAPI Yapısı.) görülebileceği gibi asp uzantılı dosyalar asp.dll dosyası ile derlenmektedir. HTM ve HTML uzantılı html sayfaları ve XML uzantılı xml	sayfaları	direkt	olarak	diskten	okunup	(web	sunucu	tarafından)	istemciye gönderilmektedir ama asp uzantılı dosyalar ISAPI yardımı ile asp.dll tarafından okunup derlenip sonuç çıktıları istemciye göderilmektedir.
+
+Not : İstemci sunucudan url yardımı ile bir dosya isteğinde bulunduğu zaman istek paketi şu şekilde olacaktır:
+
+```
+11/11/02 02:49:16 Sent GET /deneme/ornek.asp HTTP/1.1
+Accept: aplication/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, image/gif, image/x-xbitmap, image/jpeg, image/pjpeg, application/x-comet, */*
+Accept-Language: en-us Encoding: gzip, deflate
+Referer: http://www.akkoyun.net/kitap.asp Cookie: VisitCount=2&LastDate=6%2F4%2F99
+User-Agent: Mozilla/4.0 (compatible; MSIR 6.0; Windows XP) Host: 212.98.198.111
+Connection: Keep-Alive
+
+Ve bu isteği takiben sunucu istemciye dosyayı gönderirken şu başlık kısmı ile beraber gönderecektir :
+11/11/02 02:49:16 Recived HTTP/1.1 200 OK
+Server: Microsoft-IIS/5.0 Connection: Keep-Alive
+Date: Thu, 11 Nov 2002 10:22:21 GMT
+Content-Type: text/html Accept-Ranges: bytes Content-Lenght: 2946
+Last-Modified: Thu, 11 Nov 2002 10:22:21 GMT Cookie: VisitCount=2&LastDate=6%2F4%2F99
+<HTML>
+--Sayfanın geri kalanı
+```
+
+Bu bilgileri dikkatli olarak incelemenizi istiyorum çünkü ilerideki konularımızda bu sunucu ve istemci değişkenlerini okutmak ve değiştirmek üzerine konular göreceğiz.
+
+### ASP dosyalarının işletilmesi
+
+Asp uzantılı dosyaların “asp.dll” yardımı ile derlendiğini bilmekteyiz peki ya bu derlenme nasıl olmaktadır.
+
+Birinci basamak olarak asp dosyası içerisinde server taraflı kod olup olmadığı denetlenir. Eğer dosya içerisinde sunucu taraflı işletilecek bir kod bulunmaz ise IIS tarafından direkt istemciye gönderilir. Bu “Windows 2000” de yeni bir özellik olarak eklenmiştir. Bu sayede “.asp” uzantılı dosyaları kullanmamıza olanak tanır (içerisinde sunucu taraflı çalışacak kod bulunmayan dosyalara bile “.asp” uzantısı verilebilmektedir).
+
+Eğer DLL, içerisinde server taraflı çalışacak bir kod olan dosya ile karşılaşırsa; satır satır bu dosyayı işleterek script blokları içerisindeki komutları işletir ve çıktısını yine aynı yere gelecek şekilde bir çıkış dosyasına (hafızada bulunan bir tampon bölgeye) kaydeder. İçerisinde script komutu olmayan kısımlarda aynen değiştirilmeden tampona yazılır. Tüm bu işlemler tamamlandıktan sonra eğer herhangi bir hata oluşmamış ise bu dosya (tamponda tutulan) istemci bilgisayarına gönderilerek işlem tamamlanır. Bu gönderme işlemi sonucunda tampon bölge temizlenir.
+
+    Diyagram 2 : ASP Dosyalarının İşletilmesi ve İstemciye Gönderilmesi.
+
+Bilgi : IIS in ilk versiyonlarında ASP komutlarımızı işletecek olan ASP.DLL , asp dosyalarını satır satır okuyup satır satır işleyip yine satır satır çıktı alırdı. Buda performansta ciddi bir düşme meydana getirirdi.
+
+Dinamik sunucu sayfalarının oluşturulması sırasında kullanılacak olan sistem kaynakları aşağıdaki grafikte resmedilmiştir.
+
+    Resim 3 : Sistem Kaynakları Kullanımı.
+
+Asp script motoru (asp.dll) dosya içerisinde sunucu olmadığını iki şekilde anlar.
+
+taraflı çalışacak kod olup
+
+
+
+#### Tag kullanarak
+
+En çok kullanılan yöntem olup script bloğu başlangıcına ```<%``` ve script bloğu bitişine ```%>``` yazılarak arasında kalan kısma sunucu taraflı kod yazılır (Örnek 1 : ```<% %>``` Kullanmak.).
+
+```asp
+<HTML>
+<Body>
+Bu bir HTML metinidir
+<%
+Rem burasi script bloğudur
+%>
+</Body>
+</HTML>
+```
+
+Örnek 1 : ```<% %>``` Kullanmak.
+
+#### ```<script>``` elementini kullanarak
+
+Nadir olarak kullanılan bu yöntem ile sunucu taraflı kodun yer aldığı script bloğunu
+
+```<script>``` elementi ile açıp ```</script>``` elementi ile bitirilmesi baz alınmıştır. Bu şekilde ki kullanımda element içerisine yazılacak olan “Runat” özelliği sayesinde istemci veya sunucu taraflı çalışma özelliği eklenmiştir (Örnek 2 : ```<script>``` Elementi Kullanmak.).
+
+```html
+<HTML>
+<Body>
+Bu bir HTML metinidir
+<script runat=”server”> Rem burasi script bloğudur
+</script>
+</Body>
+</HTML>
+```
+
+Örnek 2 : ```<script>``` Elementi Kullanmak.
+
+Bunun yanında “Script” elementi kullanılarak sunucu üzerinde yer alan bir dosya script bloğu içerisine dahil edilebilir. Bu şekilde tüm sayfalarda kullanılan ortak kodlar bir defaya mahsus olmak üzere yazılır ve bu kodlar gereken yerlere dahil ettirilir. Bunu şu şekilde yapabilmekteyiz (Örnek 3 : Harici Kod Kullanımı.).
+
+```html
+<HTML>
+<Body>
+<script runat=”server” src=”/script.inc”></script>
+</Body>
+</HTML>
+```
+
+Örnek 3 : Harici Kod Kullanımı.
+
+Bilgi : Server Side Includes (SSIi) kullanarak harici dosyaları da asp dosyamız içerisine dahil edebiliriz. Böylece script blokları içerisinde yer alan kodları harici dosyalarda saklayabilmekteyiz. Bu konuyu ilerideki konularımızda ayrıntılı olarak ele alacağız.
+
+Yukarıda anlatılan yöntemle yapılan bir uygulamada içeriği dahil edilen “script.inc” dosyasının içerisinde mutlaka geçerli bir script olmalıdır. Bu script metin (text) yada HTML olmamalıdır. Script elementinin içerisine (açılış ve kapanış tagları arasına) kesinlikle başka bir kod gelmemesi gerekmektedir.
+
+### Özel ASP Komutları
+
+#### Script Dilini Belirlemek
+
+IIS standart olarak iki script motoru (scripting engine) ile beraber gelir. Bunlar “VBScript” ve “Jscript” dir. Bu motorlar birlikte bulunurlar. Bunlar dışında TCL ve PerlScript gibi diğer script motorları da mevcuttur fakat bunlar IIS ile beraber gelmez sadece sonradan eklenir.
+
+ASP ye biz hangi script motorunu kullanması gerektiğini söyleyebiliriz. Bu genelde standart olarak IIS de ayarlanmış haldedir (bu işlem için ilk kurulumda tanımlanmış bazı varsayılan değerler mevcuttur). Bu tanımı yapmanın en kolay yolu ASP sayfamızın ilk satırında özel içerik tanımı yapmaktır (Örnek 4 : Language Kullanımı.).
+
+```html
+<%@Language = “dil”%>
+```
+
+Örnek 4 : Language Kullanımı.
+
+Bu şekilde sayfanın VBScript için VBScript mi yoksa Jscript mi kullanacağı tanımlanmış olur.
+
+```html
+<%@Language = “VBScript”%>
+```
+
+Örnek 5 : Varsayılan Dili VbScript Yapmak.
+
+Yazabiliriz (Örnek 5 : Varsayılan Dili VbScript Yapmak.). Aynı Mantıkta Jscript için
+
+```html
+<%@Language = “JScript”%>
+```html
+
+Örnek 6 : Varsayılan Dili JScript Yapmak.
+
+Şeklinde bir kod uygun olacaktır (Örnek 6 : Varsayılan Dili JScript Yapmak.).
+
+Bu tanımlama yapılsın yada yapılmasın script bloğumuzu <script> elementi ile tanımlamışsak istediğimiz dili orada da tanımlayabiliriz (Örnek 7 : <script> Elementi İçerisinde Dil Belirlemek.).
+
+```html
+<HTML>
+<Body>
+Bu bir HTML metinidir
+
+<script Runat = ”server” Language = “VBScript”>
+Rem burasi script bloğudur ve dil olarak VBScript Kullanılmıştır
+</script>
+<script Runat = ”server” Language = “JScript”>
+Rem burasi script bloğudur ve dil olarak JScript Kullanılmıştır
+</script>
+</Body>
+</HTML>
+```
+
+Örnek 7 : ```<script>``` Elementi İçerisinde Dil Belirlemek.
+
+##### Varsayılan Script Dili
+
+Script elementi içerisinde dil belirtilmemesi durumunda veya ```<% %>``` tagları arasında aksi bir ayar yoksa sunucunun varsayılan script dili geçerli olur. Bu varsayılan dil değerini IIS ayarları yardımıyla değiştirebiliriz bunun için, “Internet Service Manager” içerisinden web sitesi adı üzerine sağ tıklayınız, gelen menüden “Özellikler” (Properties) seçeneğine giriniz (Resim 4 : Sunucu Özellikleri.).
+
+    Resim 4 : Sunucu Özellikleri.
+
+Özellikler öğesi seçildiği zaman gelecek olan pencerede yer alan “WWW Servis”
+seçeneğinin düzenle butonuna tıklayarak sistemin ana www servisi ayarlarına ulaşılır. “Home Directory” sekmesine tıklayınız. Gelen pencerede yer alan “Configration” butonuna tıklayınız. Gelen penceredeki “App Options” sekmesine yer alan “Default ASP Language” seçeneğini isteğimize göre düzenleyebiliriz. Bu alana ya “VbScript” yada “Jscript” değeri verilebilir. Aşağıda bu ayar ekranına ait ekran görüntüsü gösterilmektedir (Resim 5 : Varsayılan ASP Ayarları.).
+
+    Resim 5 : Varsayılan ASP Ayarları.
+
+
+#### CodePage
+
+Okunabilir ve yazılabilir bir değişken olan codepage sayfa başında özel biçimi ile kullanıldığı zaman içinde olduğu sayfaya ait gösterim ayarları verilmesini sağlar. Örneğin Amerika için “1252” olan bu değer Türkiye için “1254” olacaktır. Bu komutun sayfaya yazılması halinde “scriptengine” e bu çalışan sayfanın gösterim ayarlarının Amerika’ya göre ayarlanacağını belirtir (Örnek 8 : CodePage Kullanımı.).
+
+```html
+<%@CODEPAGE = “1254”%>
+```
+
+Örnek 8 : CodePage Kullanımı.
+
+Bu	komuttan	sonra sayfamızda Türkçe	karakterler	sorunsuz	olarak gösterilebilecektir. Bu kod aynı zamanda yukarıda anlatılan script dili belirleme ile beraber kullanılabilmektedir (Örnek 9 : CodePage ve Language Beraber Kullanımı.).
+
+```html
+<%@CODEPAGE = “1254” LANGUAGE=”VbScript”%>
+```
+
+Örnek 9 : CodePage ve Language Beraber Kullanımı.
+
+#### LCID
+
+Okunabilir ve yazılabilir bir değişken olan LCID (Local Identifier : Bölge Tanımlayıcı) sayfa başında özel biçimi ile kullanıldığı zaman içinde olduğu sayfaya ait özel bölgesel ayarların verilmesini sağlar. Örneğin LCID değeri “2057” şeklinde ayarlandığı zaman para birimi “₤” olarak ayarlanacaktır (Örnek 10 : LCID Kullanımı.). Türkiye için bu değer “1055” dir. Bu şekilde Türkiye’ye ait yerel saat ayarlanmış olacaktır.
+
+```html
+<%@LCID = “2057”%>
+```
+
+Örnek 10 : LCID Kullanımı.
+

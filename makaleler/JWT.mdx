@@ -1,0 +1,93 @@
+---
+id: jwt-nedir
+title: "JSON Web Tokens (JWT): Dijital Kimlik Doğrulamanın Güçlü Aracı"
+sidebar_label: JWT Nedir?
+sidebar_position: 6
+slug: /jwt-nedir
+description: Modern yazılım mimarilerinde kimlik doğrulama ve yetkilendirme için kullanılan JSON Web Tokens (JWT) yapısını, çalışma prensiplerini, kullanım alanlarını ve güvenlik zorluklarını açıklayan teknik makale.
+tags:
+  - jwt
+  - kimlik doğrulama
+  - authorization
+  - güvenlik
+  - api
+  - microservices
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# JSON Web Tokens (JWT): Dijital Kimlik Doğrulamanın Güçlü Aracı
+
+Günümüz dijital dünyasında, kullanıcıların güvenli bir şekilde kimlik doğrulaması yapmak ve farklı platformlar arasında güvenli veri aktarımı sağlamak giderek daha kritik hale gelmiştir. Bu bağlamda, **JSON Web Tokens (JWT)**, popüler ve etkili bir çözüm olarak öne çıkmaktadır. JWT, özellikle mikro servis mimarilerinde ve API tabanlı sistemlerde yaygın olarak kullanılan bir kimlik doğrulama ve yetkilendirme mekanizmasıdır. Peki, JWT nedir ve nasıl çalışır? Gelin, bu konuya yakından bakalım.
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/JWT-flow-diagram.png" alt="JWT Web Flow" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+## JWT Nedir?
+
+JSON Web Tokens, kullanıcının kimlik bilgilerini veya diğer verileri güvenli bir şekilde dijital olarak temsil eden bir JSON nesnesidir. Bu token'lar şifrelenmemiştir, ancak dijital olarak imzalanmıştır, yani veriler değiştirilmeden güvenli bir şekilde taşınabilir. JWT'nin temel amacı, kimlik doğrulama ve yetkilendirme işlemlerini güvenli ve verimli bir şekilde gerçekleştirmektir.
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/jwt-structure.png" alt="JWT Veri Yapısı" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+### JWT, üç ana bileşenden oluşur:
+
+1. **Header (Başlık)**: Algoritma ve token türünü içeren bilgileri barındırır.
+2. **Payload (Yük)**: Token içinde saklanan asıl verileri temsil eder. Bu veriler genellikle kullanıcının kimlik bilgileri (örneğin, kullanıcı ID'si) veya izinlerini içerir.
+3. **Signature (İmza)**: Header ve Payload, belirli bir şifreleme algoritması ile birleştirilerek imzalanır. Bu imza, token'ın değiştirilip değiştirilmediğini doğrulamak için kullanılır.
+
+Bu üç bölüm, noktalarla ayrılarak base64 formatında kodlanır ve ortaya çıkan string JWT'yi oluşturur. Bu sayede JWT, kolayca taşınabilir ve doğrulanabilir bir kimlik doğrulama aracı haline gelir.
+
+## JWT'nin Çalışma Prensibi
+
+JWT'nin çalışma mantığı oldukça basittir. Kullanıcı bir sisteme giriş yaptığında, sistem ona bir JWT oluşturur ve bu token, kullanıcıya geri gönderilir. Kullanıcı, daha sonra her isteğinde bu token'ı sunarak kimliğini doğrulatabilir. Bu sayede, kullanıcı her seferinde tekrar tekrar kimlik bilgilerini göndermek zorunda kalmaz.
+
+JWT'nin temel çalışma adımları şu şekildedir:
+
+1. **Kimlik Doğrulama**: Kullanıcı giriş yapar ve sunucu kimliğini doğrular.
+2. **Token Oluşturma**: Sunucu, kullanıcının kimliğini doğruladıktan sonra bir JWT oluşturur ve bu token'ı kullanıcının cihazına gönderir.
+3. **İstek Yapma**: Kullanıcı, sistemdeki diğer kaynaklara erişmek istediğinde, JWT'yi isteğiyle birlikte gönderir.
+4. **Doğrulama**: Sunucu, gelen JWT'yi kontrol eder. Eğer imza geçerliyse ve token süresi dolmamışsa, istek işlenir.
+
+## JWT Neden Popüler?
+
+JWT'nin popülerliğinin arkasında birkaç önemli sebep bulunmaktadır:
+
+1. **Taşınabilirlik**: JWT'ler, URL parametresi, HTTP başlığı veya başka herhangi bir yerden kolayca taşınabilir.
+2. **Stateless Yapı**: JWT, herhangi bir sunucu tarafı oturum yönetimine ihtiyaç duymaz. Token, kullanıcının kimliğini taşır, bu nedenle sunucu her seferinde bir veri tabanı sorgulaması yapmaz.
+3. **Güvenlik**: JWT'ler imzalanmış olduğundan, içerikleri değiştirilse bile imza doğrulaması başarısız olur ve sunucu token'ı reddeder.
+4. **Ölçeklenebilirlik**: Dağıtık sistemlerde ve mikro servis mimarilerinde JWT, merkezi bir oturum yönetimi gerektirmediği için büyük kolaylık sağlar. Token bir kez oluşturulduğunda, kullanıcı her servis için aynı token'ı kullanabilir.
+
+## JWT'nin Kullanım Alanları
+
+JWT, başta kimlik doğrulama olmak üzere birçok farklı kullanım alanına sahiptir. En yaygın kullanım alanları şunlardır:
+
+1. **Kimlik Doğrulama (Authentication)**: JWT'ler genellikle kullanıcı giriş işlemleri sırasında kullanılır. Kullanıcı bir kez doğrulandığında, JWT aracılığıyla sunucuya kimliğini tekrar tekrar kanıtlayabilir.
+2. **Yetkilendirme (Authorization)**: JWT'ler, kullanıcıların belirli kaynaklara veya işlemlere erişim iznine sahip olup olmadığını belirlemek için kullanılabilir.
+3. **Veri Paylaşımı**: JWT, güvenli bir şekilde veri taşımak için kullanılabilir. Örneğin, iki servis arasında veri paylaşımı yapılırken JWT kullanılarak verilerin bütünlüğü korunabilir.
+
+## JWT'nin Güvenlik Zorlukları
+
+JWT, güçlü bir kimlik doğrulama mekanizması olmasına rağmen, doğru kullanılmadığında bazı güvenlik açıklarına yol açabilir. İşte bu güvenlik risklerinden bazıları:
+
+1. **Token Saklama**: JWT'ler istemci tarafında saklandığı için, güvenli bir şekilde depolanmaları gerekmektedir. XSS (Cross-Site Scripting) saldırılarına karşı dikkat edilmelidir.
+2. **Süresi Dolmuş Tokenlar**: JWT'ler bir sürelik yaşam döngüsüne sahiptir. Token süresi dolduğunda, sunucunun yeni bir token talep etmesi gereklidir.
+3. **İmza Doğrulama**: JWT'ler genellikle HMAC veya RSA gibi algoritmalarla imzalanır. İmza doğrulaması sırasında bu algoritmaların güvenli bir şekilde kullanılması son derece önemlidir. Zayıf algoritmalar kullanmak, token'ın sahte bir şekilde oluşturulmasına olanak tanıyabilir.
+
+## JWT'nin Avantajları ve Dezavantajları
+
+JWT'nin avantajları kadar, bazı dezavantajları da vardır. Bu avantajlar ve dezavantajlar, JWT kullanmanın hangi senaryolar için uygun olup olmadığını anlamamıza yardımcı olur.
+
+Avantajlar:
+
+- **Performans**: Sunucu tarafında oturum bilgisi saklama gerektirmediği için daha hızlıdır.
+- **Taşınabilirlik**: Herhangi bir platformda kullanılabilir, URL'ler ve başlıklar üzerinden kolayca taşınabilir.
+- **Genişletilebilirlik**: JWT'nin payload kısmına istediğiniz kadar veri ekleyebilirsiniz.
+
+Dezavantajlar:
+
+- **Boyut**: JWT'lerin boyutu, özellikle payload kısmı büyük olduğunda artabilir. Bu, veri transferlerinde ek yük yaratabilir.
+- **Geri Alma Zorluğu**: Bir JWT, süresi dolana kadar geçerli kalır. Eğer JWT bir kez üretildiyse, sistemin geri alma (revoke) mekanizması olmadığından, süresi dolana kadar erişim sağlayabilir.
+
+## Sonuç: JSON Web Tokens ile Güvenlik ve Esneklik
+
+Sonuç olarak, JSON Web Tokens (JWT), modern uygulamalar için hem esnek hem de güvenli bir kimlik doğrulama ve yetkilendirme çözümü sunar. Doğru kullanıldığında, dağıtık sistemlerde oturum yönetimi karmaşıklığını azaltabilir ve mikro servisler arası veri paylaşımını güvenli bir şekilde gerçekleştirebilir. Ancak, JWT'nin risklerini anlamak ve bu risklere karşı önlemler almak önemlidir. Güvenli bir şekilde saklamak, kısa süreli geçerlilik süresi belirlemek ve doğru şifreleme algoritmalarını kullanmak, JWT'nin en etkili ve güvenli şekilde kullanılmasını sağlayacaktır.

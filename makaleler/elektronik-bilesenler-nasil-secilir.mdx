@@ -1,0 +1,155 @@
+---
+id: elektronik-bilesenler-nasil-secilir
+title: "Elektronik Bileşenler Nasıl Seçilir?"
+sidebar_label: Bileşen Seçimi
+sidebar_position: 8
+slug: /elektronik-bilesen-secimi
+description: Ürün tasarımı sürecinde doğru elektronik bileşenlerin nasıl seçileceğini; üretici, elektriksel parametreler, mekanik gereksinimler, çevresel koşullar, maliyet, teslim süresi ve uzun dönem kullanılabilirlik gibi kritik kriterler üzerinden detaylı şekilde ele alan teknik makale.
+tags:
+  - elektronik tasarım
+  - komponent seçimi
+  - mühendislik
+  - donanım tasarımı
+  - pcb tasarımı
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# Elektronik Bileşenler Nasıl Seçilir ?
+
+> Şaşırtıcı bir şekilde, birçok mühendis gömülü ürün tasarımının ilk aşamasında doğru elektronik bileşenleri seçme görevine yeterince dikkat etmemektedir.
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/CPU-montaj.png" alt="Elektronik komponent Seçimi" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+Doğru elektronik bileşeni seçmek, ürün tasarımının en kritik ve zorlu aşamalarından biridir. Bu yazıda direnç, kapasitör, transistör, dijital entegre, mikro denetleyici, röle, konektör, ekran vb. gibi farklı bileşenlerin nasıl seçileceğini açıklamayı amaçlamıyorum çünkü bu zor sorunun bir cevabı yok. Amacım elektronik bileşenlerle ilgili seçim kriterlerinizin ne olduğunu açıkça tanımlayabilmenizdir.
+
+Aynı sorunu çözmenin pek çok yolu vardır Bu, kompakt, üretimi kolay, uygun fiyatlı, verimli, az komponent sayısı, güvenilir vb. Bir tasarıma ihtiyacınızın olup olmadığı gibi çeşitli şeylere bağlı olacaktır. Sonuç olarak, hangi elektronik bileşenin gereksinimlerinizin çoğuna uyduğuna karar vermeye çalıştığınız bir uzlaşmadır.
+
+Her elektronik bileşen farklıdır ve özel dikkat gerektirir, ancak oyunun genel kuralları aynı kalır.
+
+## Hangi parametreler dikkate alınmalı?
+
+Başlangıç olarak, elektronik bileşenlerin ve kontrol edilmesi gereken kritik parametrelerinin bir listesini yapmanızı öneririm. Benim doğru elektronik bileşeni seçerken her zaman göz önünde bulundurduğum bir dizi parametre var.
+
+Yeni bileşenlerin seçilmesine ihtiyaç duyduğunuz bir proje üzerinde çalışırken, bunun bir dahaki sefere size yardımcı olacağını umuyorum.
+
+Ancak bundan önce, önceki tasarımlarınızda kullandığınız elektronik bileşenler hakkında bir değerlendirme yapalım.
+
+### Önceki çalışan tasarımınızdaki elektronik bileşenler
+
+İşinizin en kolay yanı, önceki çalışan tasarımınızda zaten kullandığınız komponentleri kullanmak olacaktır; bu, tasarım sorunları, gecikmeler ve ayrıca envanterde yönetilecek ek parça riskinin azaltılmasına yardımcı olur.
+
+Ancak bu yaklaşımın bir dezavantajı vardır. Bu komponente bağlı kalırsanız. Daha kompakt, daha fazla entegrasyon, daha fazla güç verimliliği, daha iyi koruma, daha uzun ömür gibi faydaları sağlayabilecek yeni bir komponentin avantajını kaçırabilirsiniz. Yeni bir tasarıma başlarken, yeni komponent deneme fırsatı da doğar (yeni komponentin performansı hakkında şüpheleriniz varsa, mevcutta kullandığınız ve deneyimlediğiniz komponente geri dönme ihtimaliniz hep vardır).
+
+## Yeni Komponentlerin Seçilmesi
+
+Şimdi, daha önce kullanmadığımız bir komponenti seçmemiz gerektiğini varsayalım, bu zorluğa nasıl yaklaşmalıyız. Daha önce de belirtildiği gibi, dikkate alınması gereken tüm parametreleri listeler ve ardından mevcut komponent veritabanından iyileştirmeye / filtrelemeye gitmemiz gerekir. DigiKey, Mouser, RS Components, Farnell, Element14, vb. gibi çevrimiçi distribütörlerde bulunan komponentler içerisinde aramayla başlamak en doğru başlangıç olacaktır.
+
+Bazı parametreleri tek tek ele alalım. Bu, birçok şirkette geliştirdiğim projelerden elde ettiğim kişisel deneyimlerime dayanmaktadır:
+
+### 1. Üretici
+
+Üreticiyi akıllıca seçin. Her zaman anlaşılır şekilde hazırlanmış bir DataSheet, detaylı uygulama notları ve referans tasarımları olan, kullanıcılar tarafından değerlendirme yorumları yazılmış, hızlı bir destek kanalına sahip bir üretici seçin. Kompleks tasarım yardımı ve detay bilgiler için üreticiyle e-posta üzerinden iletişime geçmek isteyebilirsiniz. Bu nedenle yerel Saha Uygulama Mühendisi desteği bulunan bir üretici seçmek gerçekten yardımcı olacaktır (yerel bir desteği olmayan firma seçecekseniz online iletişim kanallarından hızlıca destek alabileceğiniz bir üretici seçmeye çalışın). Hızlı ve güvenilir bir desteğe sahip olmayan üreticilere güvenmek zordur.
+
+#### Uygulama Notları
+
+Üreticinin uygulama notları, komponentin çalışma koşullarını anlamada çok yardımcı olur. Böylece birçok kez test edilmiş elektronik bileşenin marka değeri de artar, bu da komponent riskini büyük ölçüde azaltır. Ön yeterlilik için kullanıcı yorumları ve forumlarda kullanılabilir.
+
+#### Referans Tasarımlar, Yazılım Araçları
+
+Bazı üreticiler ayrıca, herhangi bir şey tasarlamadan önce, elektronik komponentlerin performansını kendi konfigürasyonlarınıza göre değerlendirmenize yardımcı olmak amacıyla sektöre özel referans tasarımı, yazılım araçları gibi birçok kaynak da sağlar. Bu, geliştirme süresini ve başarısızlık olasılığını büyük ölçüde azaltır.
+
+#### Teknik Destek / Tasarım İnceleme Desteği
+
+Komponent üreticisinin desteği çok önemlidir. Teknik bir konuda takılırsanız, mühendislerinden yardım isteyebilirsiniz. Birçok üretici, ürünlerini kullanan tasarımcılara büyük ölçüde yardımcı olan tasarım inceleme raporu sunar. Ürünlerini kullandığınız şematiklerinizi gönderebilir ve her şeyin yolunda olup olmadığını veya herhangi bir önerileri olup olmadığını içeren bir rapor talep edebilirsiniz.
+
+### 2. Uygulama Devresi Karmaşıklığı
+
+Yeni komponentler, uygulama anlayışına ihtiyaç duyar ve çoğu zaman uygulama devresinin karmaşıklığı parça seçimini doğrudan etkiler. A komponentinin B komponentine göre daha karmaşık bir uygulama devresi olduğunu varsayalım. Tüm gereksinimlerin her ikisi tarafından da karşılanması koşuluyla, açık seçim B komponeti olacaktır. Ancak, bazen bunun bir maliyeti vardır, örneğin, kolay uygulama devresi, ekstra maliyetler anlamına gelebilecektir.
+
+Örneğin bazı komponentlerin dahili ESD koruması olabilir, bu nedenle biraz daha pahalıya mal olabilir. Lütfen komponent seçimlerinizde; kompakt boyut, kolay tasarım ve tek bir üreticiye bağımlılık, daha yüksek teslim süreleri, genel PCB yapısı üzerindeki etki, üretim testi/onarım süresi vb. gibi çıkarımlarda hangi avantajları elde ettiğinizi dikkatlice değerlendirin.
+
+### 3. Elektriksel Parametreler [voltaj, akım, güç, doğruluk, tepki süresi, hız, çözünürlük, vb.]
+
+Bu komponent seçiminin özüdür, Örneğin: bir direnç için direnç değerini, toleransını, sıcaklık katsayısını, watt değerini vb. görmeniz gerekir.
+
+Başka bir örnek vermek gerekirse; bir DC-DC dönüştürücü IC'yi düşünün, bazı elektriksel parametreler giriş voltajı aralığı, çıkış voltajı doğruluğu, aşırı akım, aşırı voltaj, düşük voltaj kesme, termal kapatma, hafif yük verimliliği, güç derecesi gibi dahili korumalar olacaktır.
+
+Kritik bir parametreyi kaçırmamak için bir liste yaptığınızdan emin olun.
+
+### 4. Mekanik Parametreler [boyut, kılıf, ağırlık, vb.]
+
+Mekanik boyut, parça seçiminde önemli bir rol oynar. Ne tür boyut kısıtlamalarınız var? Biraz daha büyük boyutta bir sorun mu var yoksa mümkün olduğunca kompakt bir kılıf mı seçmeniz gerekiyor? Daha küçük kılıfla birlikte montaj, test etme ve onarım karmaşıklığı da gelir. Örnek: Bir SMD direnç seçerseniz, 0402 kılıf 0603 veya 0805'e kıyasla manuel olarak lehimlemek çok zor olacaktır.
+
+Diğer bir örnek ise kurşunsuz (BGA/LLP) paketlerdir. PCB tasarımı ve manuel lehimleme açısından karmaşık olacaktır, bu nedenle genel gereksiniminiz için neyin en mantıklı olduğuna dikkatlice karar verin. PCB'lerinizi bir dizgi makinasında mı dizdireceğinize yada manuel olarak elinizle mi lehimleneceğine göre kılıf seçimi etkilenecektir.
+
+Genel olarak nakliye maliyetinizi doğrudan etkilediği için ürünün toplam ağırlığını düşük tutmalıyız. Bazı durumlarda ağırlık; giyilebilir bir ürün veya bir drone gibi ağırlık kriteri olan bir ürün de olabilir.
+
+### 5. İmalat ve Test Süreçleri.
+
+Hangi parçayı seçerseniz seçin, bunları toplu olarak üretirken veya test ederken bir sorun yaratmamalıdır, bu nedenle bir parça seçerken daima üretim ve test sürecini göz önünde bulundurun. Bu parçanın PCB üzerine nasıl yerleştirileceğini ve ardından nasıl test edileceğini önceden gözünüzde canlandırın.
+
+### 6. Çevresel Parametreler: Sıcaklık / Nem / Basınç / Titreşim
+
+Çevresel parametreler de çok önemlidir, önceden bilinmeli ve dikkatle düşünülmelidir. Ürününüzün göreceği sıcaklık aralığını kestirmeli, ardından en kötü durum analizini yapmalı ve diğer parametreler için de aynı şekilde seçim yapmalısınız.
+
+Düzgün çalışma/depolama sıcaklığını, nemi, basıncı, titreşim aralığını ve komponent performansı üzerindeki etkisini kontrol edin. Bu değerlendirmeyi kaçırmak, saha hataları veya kötü performans gibi saha sürprizlerine yol açabilir.
+
+### 7. Uzun süreli kullanılabilirlik / Ömür sonu (EOL)
+
+Mümkün olduğunda, pin uyumlu alternatifi olan bir elektronik komponent seçin. Bu kritik özelliklerden ödün verdiğiniz anlamına gelmez.
+
+Yakında NRND (yeni tasarım için önerilmez) olacak bir parçaya sahip bir devre tasarlamak istemediğimiz için, bir elektronik komponent seçerken uzun vadeli kullanılabilirlik büyük bir konudur.
+
+Bu nedenle, özellikle seçilen IC'ler, MCU'lar, Konektörler, Ekran vb. elektronik bileşenlerinizin min. 5 ila 7 yıl (veya ihtiyacınıza göre) kullanılabilirliğe sahip olduğundan emin olun. Herhangi bir şüpheniz varsa veya bulunabilirlik konusunda bilgi yoksa, üreticiye danışabilirsiniz. Bir elektronik bileşenin yaşam döngüsü durumunu öğrenmek için Altium'dan CIIVA'yı da kullanabilirsiniz.
+
+### 8. Teslimat süresi
+
+Ürün geliştirme de teslim süresi önemli bir rol oynar. Bu, önceden planlanmadığında yol haritanızı tamamen mahvedebilir. Bazen numune tedarik süreleri kısadır, ancak daha büyük bir miktar satın almaya çalıştığınızda tedarik süreleri daha uzundur, bu yüzden dikkatli olun.
+
+Teslim süreleri yüksekse ve başka bir parça seçeneğiniz yoksa, fazladan stok tutmanız gerekebilir. Bunun, ürünün genel maliyetini etkileyeceğini de unutmamak gerekir.
+
+### 9. Maliyet
+
+Herkes en uygun fiyata en iyi elektronik bileşene sahip olmak ister. Daha düşük bir maliyetle alıyorsanız kaliteden ödün vermeyin. Bazen daha iyi performans, daha verimli güç, daha küçük paket, daha fazla entegrasyon (optik izolasyon, RS485 alıcı-vericilerinde yerleşik ESD koruması vb.), daha iyi güvenilirlik nedeniyle cihaz daha pahalıya mal olur. Bu nedenle, yalnızca bir elektronik bileşenin maliyetinden ziyade toplam maliyeti göz önünde bulundurun.
+
+Yalnızca en düşük maliyetli elektronik bileşenleri satın almayın, ürün reçetesi, üretim süresi, onarım süresi vb. üzerindeki genel maliyet etkisini hesaba katın. Bu şekilde düşünürseniz daha iyi bir karar verebilirsiniz.
+
+### 10. Nereden Satın Almalı?
+
+Bu kritik bir parametredir.
+
+Daha önce de belirtildiği gibi, her zaman mümkünse doğrudan üreticiden, yetkili distribütörlerden vb. güvenilir kaynaklardan elektronik bileşenleri satın almanızı öneririm. Elektronik bileşenlerin orijinalliğinin garanti edilmediği bir mağazadan (çevrimiçi veya fiziksel) satın almanızı önermiyorum.
+
+Kullanıma hazır ve çoğu kez daha az maliyette olduğu için yerel bir satıcıdan satın almak cazip gelebilir, ancak elektronik bileşenin kalitesiyle ilgili herhangi bir sorun olması durumunda, fiyatı şu şekilde ödeyebilirsiniz: hata ayıklama için harcanan değerli zamanı kaybetmek.
+
+Bunun yanı sıra ürününüzde sahte (patates) bir ürün kullandığınızda; komponente güvenip sorunun o noktada olamayacağını düşünmek ve diğer noktalara odaklanmak size çok vakit kaybettirecektir.
+
+Bunu kariyerimin ilk günlerinde birkaç kez yaşadım, bu yüzden bunu her zaman aklımda tutarım.
+
+### 11. Hata Çözümü / Montaj seçenekleri
+
+Tasarladığınız yeni devre için bir yedek/montaj seçeneği (gerekirse) bulundurmak her zaman iyi bir fikirdir, böylece bir devre seçeneğinin çalışmaması durumunda başka bir olasılığınız olur. Bu, birçok kez manuel sorun çözme (karta harici müdahale) ve yeniden tasarım (dolayısı ile üretim) konularında kolaylık sağlar.
+
+Bazı tasarımlarımda, parçanın uzun vadeli kullanılabilirliği, teslim süreleri konusunda emin olmadığım için, güç kaynağı bölümü için uyumlu iki farklı DC-DC dönüştürücü çip türü yapmak için montaj seçeneklerini kullandım. Bu, artık iki seçeneğim olduğu için uzun vadeli kullanılabilirlik ve daha fazla esneklik konusunda bana yardımcı oldu.
+
+Montaj seçenekleri, sisteminizde bir seçeneğin gerekli olmadığı durumlarda yada bir bölümün atlamasını istediğinizde de kullanışlıdır. Opsiyonel bir sıfır ohm direnç koyabilirsiniz.
+
+### 12. Tasarım İncelemeleri
+
+3 seviyeli inceleme sürecini takip edin:
+
+1. Her zaman ayrıntılı bir öz değerlendirme yapın. Tasarımınızı defalarca üzerinden geçerek inceleyin
+2. Kuruluşunuzda sizden başka biri tarafından ikinci bir inceleme yapılmalıdır. Sizin göremediğiniz veya tasarım körlüğüne tutulduğunuz bir konuda yardımcı olabilir.
+3. Mümkünse ve/veya kendinize güvenmiyorsanız, tasarımlarınızın dışarıdan deneyimli bir mühendis veya danışman tarafından gözden geçirilmesini sağlayın.
+
+Bu şekilde incelemeler yaparak tasarımınız ve komponent seçiminiz birden fazla kişi tarafından sorgulanır ve hata olasılığı, tasarımı yeniden yapmak, maliyet kaybı, zaman kaybı gibi istenmeyen durumlar büyük ölçüde azalacaktır.
+
+### 13. Prototipleme
+
+Yeni bir komponent kullanmadan önce, kısmen veya tümleşik testlerinizi yaparak mikro uygulamalar ile test etmek her zaman tavsiye edilir. Bunun için komponent test kitleri kullanılabileceği gibi kendi hazırlayacağınız devreler kullanılabilir.
+
+Parça test edildikten ve performans değerlendirildikten sonra tam ürün tasarımına dahil edilebilir. Birçok şirket tasarımın tamamını kendisi yapar, ancak daha sonra risk aldıklarını ve bir sorun çıkarsa yeniden tasarlamaları ve yeniden üretmeleri gerektiğini bilirler. Bu nedenle, sizin için en iyisinin ne olduğu konusunda bilinçli bir karar verin.
+
+Bu 13 noktanın bir sonraki tasarımınızda size yardımcı olacağını umuyorum.

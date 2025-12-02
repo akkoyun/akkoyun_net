@@ -1,0 +1,131 @@
+---
+id: intro
+title: Kitaplar
+sidebar_label: Kitaplar
+sidebar_position: 0
+description: Bu bölümde yazdığım ve üzerinde çalıştığım kitapların genel bir özetini, her kitabın odaklandığı alanı ve içerik yapısını kart tabanlı bir görünümle sunuyorum.
+hide_title: true
+pagination_prev: null
+pagination_next: null
+---
+
+import Link from '@docusaurus/Link';
+
+<section
+  style={{
+    textAlign: 'center',
+    marginTop: '16px',
+    marginBottom: '32px',
+  }}
+>
+  <p
+    style={{
+      fontSize: '1.05rem',
+      maxWidth: '640px',
+      margin: '0 auto',
+      color: 'var(--ifm-color-emphasis-700)',
+    }}
+  >
+    Şimdiye kadar yazdığım ve üzerinde çalıştığım teknik kitapları burada topluyorum.
+    Donanım girişimciliği ve yazılım dünyasındaki yolculuğumu, bu kitaplar üzerinden
+    adım adım anlatıyorum.
+  </p>
+</section>
+
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+    gap: '24px',
+    marginTop: '8px',
+  }}
+>
+  <article
+    style={{
+      border: '1px solid var(--ifm-color-emphasis-200)',
+      borderRadius: '16px',
+      padding: '24px',
+      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.04)',
+      background: 'var(--ifm-background-surface-color)',
+      textAlign: 'center',
+    }}
+  >
+    <div
+      style={{
+        width: '64px',
+        height: '64px',
+        borderRadius: '999px',
+        margin: '0 auto 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, rgba(0, 123, 255, 0.09), rgba(0, 123, 255, 0.02))',
+      }}
+    >
+      <img
+        src="/img/kitap-asp.png"
+        alt="ASP Güncesi"
+        style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+      />
+    </div>
+    <h3 style={{ marginBottom: '8px' }}>ASP Güncesi</h3>
+    <p
+      style={{
+        fontSize: '0.95rem',
+        color: 'var(--ifm-color-emphasis-700)',
+        marginBottom: '16px',
+      }}
+    >
+      ASP ile geliştirme sürecinde yaşanan deneyimler, yöntemler ve çözümlerden oluşan notlar.
+    </p>
+    <Link className="button button--secondary button--sm" to="/kitaplar">
+      Yakında
+    </Link>
+  </article>
+
+  <article
+    style={{
+      border: '1px solid var(--ifm-color-emphasis-200)',
+      borderRadius: '16px',
+      padding: '24px',
+      boxShadow: '0 8px 20px rgba(0, 0, 0, 0.04)',
+      background: 'var(--ifm-background-surface-color)',
+      textAlign: 'center',
+    }}
+  >
+    <div
+      style={{
+        width: '64px',
+        height: '64px',
+        borderRadius: '999px',
+        margin: '0 auto 16px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: 'linear-gradient(135deg, rgba(0, 123, 255, 0.09), rgba(0, 123, 255, 0.02))',
+      }}
+    >
+      <img
+        src="/img/kitap-donanim.png"
+        alt="Donanım Girişimciliği"
+        style={{ width: '40px', height: '40px', objectFit: 'contain' }}
+      />
+    </div>
+    <h3 style={{ marginBottom: '8px' }}>Donanım Girişimciliği</h3>
+    <p
+      style={{
+        fontSize: '0.95rem',
+        color: 'var(--ifm-color-emphasis-700)',
+        marginBottom: '16px',
+      }}
+    >
+      Donanım ürünlerini fikirden seri üretime, finansmandan pazara girişe kadar uçtan uca ele alan kitap.
+    </p>
+    <Link
+      className="button button--primary button--sm"
+      to="/kitaplar/donanim-girisimciligi/donanim-ekosistemi"
+    >
+      Kitabı Aç
+    </Link>
+  </article>
+</div>

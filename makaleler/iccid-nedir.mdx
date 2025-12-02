@@ -1,0 +1,82 @@
+---
+id: iccid-nedir
+title: "ICCID Numarası: Detaylı Bir İnceleme ve Kullanım Alanları"
+sidebar_label: ICCID Nedir?
+sidebar_position: 3
+slug: /iccid
+description: SIM kartların benzersiz kimliği olan ICCID numarasının yapısını, kullanım alanlarını, Luhn algoritmasıyla doğrulama sürecini ve IoT ekosistemindeki önemini açıklayan teknik makale.
+tags:
+  - iccid
+  - sim kart
+  - iot
+  - luhn algoritması
+  - hücresel iletişim
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# ICCID Numarası: Detaylı Bir İnceleme ve Kullanım Alanları
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/sim-tray.png" alt="SIM Tray" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+Photo by Brett Jordan on UnsplashMobil iletişim dünyasında, ICCID (Integrated Circuit Card Identifier) numarası, bir SIM kartın benzersiz kimliğini temsil eder. Bu yazıda, ICCID numarasının ne olduğu, yapısının nasıl olduğu, kullanım alanları ve gelecekteki rolü hakkında kapsamlı bilgi vereceğim.
+
+## ICCID Nedir?
+
+ICCID, bir SIM kartına atanmış benzersiz bir kimlik numarasıdır. Bu numara, dünya genelinde SIM kartların tanımlanması ve yönetilmesi için kullanılır ve genellikle 19 veya 20 hanelidir. ICCID numaraları, mobil ağ sağlayıcılarının SIM kartları takip etmesi ve yönetmesi için kritik öneme sahiptir​ (TechTerms).
+
+## ICCID Numarasının Yapısı
+
+ICCID numarası, belirli bileşenlerden oluşur:
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/makaleler/iccid-structure.png" alt="ICCID Kod Yapısı" style={{ width: "100%",borderRadius: "12px" }}/></div>
+
+1. MII (Major Industry Identifier): İlk iki rakam her zaman 89'dur ve bu, kartın telekomünikasyon sektörüne ait olduğunu belirtir.
+2. CC (Country Code): Bu bölüm, SIM kartı veren ülkeyi belirtir. Örneğin, ABD için '1', Danimarka için '45'.
+3. IIN (Issuer Identifier Number): Kartı veren kurumu tanımlar ve genellikle mobil ağ kodunu (MNC) içerir.
+4. IAIN (Individual Account Identification Number): Bu bölüm, bireysel hesabı veya SIM kartı tanımlar ve her SIM kartın benzersiz olmasını sağlar.
+5. Checksum: Son rakam, Luhn algoritması kullanılarak hesaplanan bir denetim rakamıdır ve ICCID'nin bütünlüğünü doğrulamak için kullanılır​ (The IoT Guide)​.
+
+## Luhn Algoritması: Basit Bir Hata Tespit Yöntemi
+
+Luhn algoritması, çeşitli kimlik numaralarının (kredi kartı numaraları, sosyal güvenlik numaraları, ICCID numaraları gibi) doğrulanmasında kullanılan bir hata tespit algoritmasıdır. Hans Peter Luhn tarafından 1954 yılında IBM'de geliştirilmiştir ve günümüzde hala yaygın olarak kullanılmaktadır. Bu algoritma, özellikle veri giriş hatalarını tespit etmek ve bu hataların önüne geçmek için tasarlanmıştır.
+
+## Luhn Algoritmasının İşleyişi
+
+Luhn algoritmasının çalışma prensibi oldukça basittir ve aşağıdaki adımları içerir:
+
+1. Rakamları Sağdan Başlayarak İşleme Alma: Doğrulanacak numaranın sağdan başlayarak her ikinci rakamını iki ile çarpın.
+2. Çarpım Sonuçlarını Ayırma: Eğer çarpım sonucu çift haneli bir sayı ise, bu sayının rakamlarını toplayın (örneğin, 8'in çarpımı 16 ise, 1 + 6 = 7 olarak işleme alınır).
+3. Rakamları Toplama: Çarpılan rakamları ve çarpılmamış diğer rakamları toplayın.
+4. Toplamın Mod 10 Kontrolü: Elde edilen toplamın son rakamı sıfır (0) ise, numara geçerlidir. Bu, toplamın 10'a tam bölünebildiğini gösterir.
+
+## ICCID Numarasının Kullanım Alanları
+
+ICCID numaraları, çeşitli amaçlarla kullanılır:
+
+- Mobil Ağ Bağlantısı: SIM kartının ağda tanımlanması ve etkinleştirilmesi için kullanılır. Bu, yeni cihazlarda hizmetin başlatılması ve hizmetlerin cihazlar arasında aktarılması sürecinde kritik bir rol oynar.
+- Cihaz Yönetimi: Mobil operatörler ve işletmeler, büyük mobil cihaz filolarını yönetmek için ICCID numaralarını kullanır. Bu, her cihazın doğru hizmetlerle donatılmasını sağlar.
+- Güvenlik: ICCID numaraları, dolandırıcılık faaliyetlerinin tespit edilmesi ve izlenmesi için kullanılır. Ayrıca, diğer kimlik numaraları (IMSI ve IMEI gibi) ile birlikte, kullanıcının kimliğini ve cihaz bütünlüğünü korumaya yardımcı olur​ (Cavli Wireless)​​ (The IoT Guide)​.
+- IoT ve Akıllı Cihazlar: IoT cihazları, hücresel ağlar üzerinden veri toplamak ve uzaktan kontrol sağlamak için giderek daha fazla ICCID numaralarına bağımlı hale gelmektedir. Bu, bağlantıların yönetilmesi ve cihazların izlenmesi için önemlidir​ (Cavli Wireless)​​ (The IoT Guide)​.
+
+## ICCID Numarası ve Diğer Kimlikler Arasındaki Fark
+
+ICCID, IMSI ve IMEI numaraları, mobil cihazlarda farklı bileşenleri tanımlayan benzersiz kimlik numaralarıdır:
+
+- ICCID: SIM kartı tanımlar. Bağlantının yönetilmesi ve hizmetlerin sağlanması için kullanılır.
+- IMSI: Aboneyi tanımlar. Kimlik doğrulama ve hizmet erişiminin sağlanması için kullanılır.
+- IMEI: Cihazı tanımlar. Takip ve hırsızlık önleme amacıyla kullanılır​ (TechTerms).
+
+## Gelecekteki Rolü
+
+Gelecekte, IoT cihazlarının artan kullanımı ile birlikte ICCID numaralarının rolü de genişleyecektir. eSIM teknolojisinin gelişimi, ICCID'nin daha esnek, yazılım tabanlı mobil hizmet yönetimi sağlamasına olanak tanıyacak ve fiziksel SIM kart değişiklikleri gereksinimini ortadan kaldıracaktır​.
+
+ICCID numaraları, mobil ağ bağlantısının sağlanması, abone hesaplarının yönetilmesi ve güvenli iletişimin temini için vazgeçilmezdir. Bu benzersiz kimlik numaraları, küresel iletişimin ve IoT teknolojilerinin temel yapı taşlarından biri olmaya devam edecektir.
+
+## Kaynaklar
+
+- [ICCID Numarası - TechTerms](https://medium.com/r/?url=https%3A%2F%2Ftechterms.com%2Fdefinition%2Ficcid)
+- [What is an ICCID number? - The IoT Guide](https://medium.com/r/?url=https%3A%2F%2Fwww.theiotguide.com%2Fknowledge-base%2Ficcid%2F)
+
+Bu yazıda ICCID numarasının önemini ve çeşitli kullanım alanlarını ele aldım. Umarım bu bilgi, mobil ağlar ve SIM kart teknolojileri hakkında daha iyi bir anlayışa sahip olmanıza yardımcı olur.

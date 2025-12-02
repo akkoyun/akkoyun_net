@@ -1,0 +1,66 @@
+---
+id: tarimda-sebeke-sorunlari
+title: Tarımsal Sulamada Yüksek Gerilim Sorunu
+sidebar_label: Tarımda Şebeke Sorunları
+sidebar_position: 2
+slug: /tarimda-sebeke-sorunlari
+description: Tarımsal sulama tesislerinde TSE EN 50160 sınırlarının üzerinde gerilim oluşmasının nedenlerini, dağıtım şirketlerinin sorumluluklarını ve PowerStat ölçüm sistemiyle elde edilen teknik bulguları ele alan makale.
+tags:
+  - enerji kalitesi
+  - tarımsal sulama
+  - gerilim sorunu
+  - TSE EN 50160
+  - powerstat
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# Tarımsal Sulamada Yüksek Gerilim Sorunu: Yatırım Eksikliği ve Çiftçinin Hakkı
+
+Elektrik enerjisi, modern tarımsal sulama sistemlerinin temelini oluşturuyor. Ancak kırsalda üretim yapan çiftçiler, sadece enerjiye erişim değil, aynı zamanda **enerji kalitesi sorunu** ile de mücadele etmek zorunda bırakılıyor. Sahadan elde ettiğimiz veriler, birçok tarım arazisinde **TSE EN 50160 standardının** çok üzerinde voltajlar gözlendiğini ortaya koyuyor. Bu durum, enerji dağıtım şirketlerinin altyapıya yatırım yapmaktan kaçınmasının doğrudan bir sonucudur.
+
+## Dağıtım Var, Kalite Yok: Yetersiz Altyapısı
+
+Elektrik dağıtımından sorumlu olan dağıtım şirketleri, OG (orta gerilim) hatlar ile enerji sağlamakta, ancak hat boyunca yeterli **gerilim regülasyonunu sağlayacak kompanzasyon, otomasyon ya da voltaj sabitleyici altyapı** yatırımlarını yapmamaktadır. Sonuç olarak, özellikle yoğun sulama dönemlerinde ciddi voltaj dengesizlikleri ortaya çıkmakta, tarım işletmeleri zarar görmektedir.
+
+Dağıtım şirketi, bu sistemsel sorunu çözmek yerine, topu çiftçilere atmakta ve yaşanan zararın ispatını **çiftçinin kendisinin** yapması gerektiğini savunmaktadır. Bu yaklaşım, hem teknik olarak yetersizdir hem de hukuken kabul edilemez. Zira dağıtım şirketi, **hizmet sunduğu hattın kalitesini sağlamakla ve izlemekle yükümlüdür**.
+
+## Gerçeği Ölçen Sistem: PowerStat
+
+Biz bu sorunu çözümlemek için geliştirdiğimiz **PowerStat** adlı cihaz ile arazideki enerji verilerini anlık olarak kayda alıyoruz. PowerStat sistemi;
+
+- Anlık gerilim, akım, frekans, cosφ, harmonik gibi parametreleri izliyor,
+- Gerilim TSE toleranslarını aştığında kullanıcıyı anlık uyarıyor,
+- **TÜRKAK onaylı kalibre edilmiş** ölçüm donanımları sayesinde, yasal geçerliliği olan veri üretiyor.
+
+:::info[Ve en önemlisi:]
+
+Tüm bu veriler, zaman damgası ile birlikte blokzincir (blockchain) üzerinde kayıt altına alınıyor.
+
+:::
+
+Bu sayede:
+
+- Veriler değiştirilemez hale geliyor,
+- Herhangi bir müdahale veya sahtecilik ihtimali ortadan kalkıyor,
+- Çiftçi, zarar gördüğünde elinde yasal geçerliliği olan, bağımsız ve tarafsız bir ölçüm kaydıyla hak arayabiliyor.
+
+## Gerçek Sahadan: 467V Gibi Tehlikeli Seviyeler
+
+PowerStat ölçümleri bazı arazilerde olması gereken 380V gerilim değerinin 467V seviyelerine çıktığını gösterdi. TSE EN 50160 standardına göre faz-faz gerilimde izin verilen üst sınır 418V’dur. Bu değerin dahi çok üzerinde olan gerilimler;
+
+- Pompa motorlarını yakıyor,
+- Kompanzasyon sistemlerini bozuyor,
+- Sigorta sistemlerinin devre dışı kalmasına,
+- Hatta yangın riskine neden oluyor.
+
+Tüm bunlar çiftçinin cebinden çıkan para ve kaybedilen ürün demek.
+
+## Sonuç: Sorumluluğu Kabul Edin, Suçu Atmayın
+
+Bugün sahada izlediğimiz arazilerin yaklaşık **%38**’inde TSE standartlarının dışında voltaj gözlemleniyor. Bu oran, münferit bir durum değil, **yapısal bir ihmalin sonucudur**.
+
+Enerji dağıtım şirketlerinin, altyapıya yatırım yapmadan, sorumluluğu çiftçinin üzerine atması kabul edilemez. Artık çiftçiler sadece tüketici değil; veri üreten, hak arayan, teknik donanımı olan kullanıcılar konumundadır.
+
+Biz bu sistemle, çiftçilerin hakkını savunmasına yardımcı olacak, teknik olarak doğrulanmış ve yasal olarak geçerli veriler sağlıyoruz. Elektrik dağıtım şirketleri hizmet kusurunun üzerini “kanıtlayın da görelim” gibi yaklaşımlarla örtemez.
