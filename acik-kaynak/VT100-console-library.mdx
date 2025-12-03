@@ -1,0 +1,90 @@
+---
+id: vt100-console
+title: Console – VT100 Terminal Kütüphanesi
+description: VT100 uyumlu terminaller için modern C++ ile geliştirilmiş hafif ve taşınabilir terminal kontrol kütüphanesi.
+sidebar_label: Console Kütüphanesi
+github_url: https://github.com/akkoyun/Console
+sidebar_position: 1
+slug: /console
+tags:
+  - C++
+  - VT100
+  - Terminal
+  - iot
+  - Open Source
+  - Arduino
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# Console Kütüphanesi
+
+Console, VT100 uyumlu terminallerde metin tabanlı arayüzler oluşturmaya yönelik, hafif fakat oldukça işlevsel bir C++ kütüphanesidir.
+
+Gömülü sistemlerde, IoT cihazlarında veya CLI tabanlı araçlarda çalışırken terminal kontrolü çoğu zaman gereksiz tekrarlarla dolu, hataya açık ve okunması zor bir hâl alır. Console, tam da bu noktada devreye girerek geliştiriciye temiz, anlaşılır ve yeniden kullanılabilir bir yapı sunar.
+
+Kütüphane, manuel VT100 kaçış dizilerini ezberleme veya satır aralarına gizlenmiş kontrol kodlarıyla boğuşma derdini ortadan kaldırır. Bunun yerine:
+
+- Renk yönetimi,
+- İmleç (cursor) kontrolü,
+- Ekran temizleme,
+- Satır manipülasyonu,
+- Basit terminal UI bileşenleri,
+
+gibi işlemleri tek satırda, okunaklı bir şekilde yapmayı sağlar.
+
+Console, mümkün olduğunca yalın bir API sunarken aynı zamanda modern C++ prensiplerini benimser. Bu sayede hem küçük aygıtlarda hem de masaüstü uygulamalarında hafif, güvenilir ve taşınabilir bir çözüm olarak kullanılabilir.
+
+Kısacası bu kütüphane, terminal çıktısıyla çalışan herkese zaman kazandırmayı; kodu daha temiz, niyet odaklı ve sürdürülebilir hale getirmeyi amaçlayan küçük ama işlevli bir yardımcı araçtır.
+
+## Kurulum
+
+```bash
+git clone https://github.com/akkoyun/Console
+```
+
+Projene include etmen yeterli:
+
+```cpp
+#include "Console.hpp"
+```
+
+## Basit Kullanım Örneği
+
+```cpp
+#include "Console.hpp"
+
+int main() {
+    Console::Clear();
+    Console::SetForeground(Console::Color::Green);
+    Console::WriteLine("VT100 Console Test");
+
+    Console::MoveCursor(5, 10);
+    Console::Write("Cursor moved!");
+
+    Console::Reset();
+}
+```
+
+# Katkı ve Geliştirme
+
+Console kütüphanesi tamamen açık geliştirme modeliyle ilerlemektedir.  
+
+Hataları düzeltmek, yeni özellikler önermek veya mevcut yapıyı iyileştirmek istersen katkılarını görmek beni her zaman mutlu eder.
+
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.  
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.  
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+Bu proje küçük bir terminal yardımcı aracından daha fazlası olsun istiyorum.  
+
+Gerçek kullanım senaryolarından gelen geri bildirimler, kütüphanenin gelişimi için büyük önem taşıyor.
+
+# Kullanım İzni
+
+Console kütüphanesini dilediğin projede, dilediğin kapsamda kullanabilirsin.  
+
+Herhangi bir lisans kısıtlaması yoktur.
+
+Daha özel bir kullanım ihtiyacın, ticari bir entegrasyon planın veya teknik bir sorunun olursa bana doğrudan e‑posta ile ulaşabilirsin: **akkoyun@me.com** Senin kullanım senaryonu duymak ve proje hakkında geri bildirim almak benim için oldukça değerli.

@@ -98,51 +98,54 @@ const config: Config = {
     ],
   ],
 
+  // Local search (offline)
+  themes: [
+    [
+      require.resolve('@easyops-cn/docusaurus-search-local'),
+      {
+        hashed: true,
+        language: ['tr'],
+        docsPluginIdForPreferredVersion: 'kitaplar',
+        indexDocs: true,
+        indexBlog: true,
+        indexPages: false,
+        docsRouteBasePath: ['kitaplar', 'makaleler', 'acik-kaynak'],
+        blogRouteBasePath: ['/blog'],
+      },
+    ],
+  ],
+
   // Theme configuration
   themeConfig: {
 
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     colorMode: {
-      respectPrefersColorScheme: true,
+      defaultMode: 'light',
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
 
     // Page Navbar
     navbar: {
       title: 'Günce Akkoyun',
-      logo: {
-        alt: 'akkoyun.net logosu',
-        src: 'img/logo.svg', // ileride kendi logonu koyarsın
-      },
+      logo: {alt: 'akkoyun.net logosu', src: 'img/logo.svg',},
+
+      // Navbar items
       items: [
-        {
-          type: 'docSidebar',
-          sidebarId: 'kitaplarSidebar',
-          docsPluginId: 'kitaplar',
-          label: 'Kitaplar',
-          position: 'left',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'makalelerSidebar',
-          docsPluginId: 'makaleler',
-          label: 'Makaleler',
-          position: 'left',
-        },
-        {
-          type: 'docSidebar',
-          sidebarId: 'acikKaynakSidebar',
-          docsPluginId: 'acik-kaynak',
-          label: 'Açık Kaynak',
-          position: 'left',
-        },
-        { to: '/blog',     label: 'Blog',     position: 'left' },
-        { to: '/hakkimda', label: 'Hakkımda', position: 'right' },
-        {
-          href: 'https://github.com/akkoyun',
-          label: 'GitHub',
-          position: 'right',
-        },
+
+        // Docs sidebars
+        {type: 'docSidebar', sidebarId: 'kitaplarSidebar', docsPluginId: 'kitaplar', label: 'Kitaplar', position: 'left',},
+        {type: 'docSidebar', sidebarId: 'makalelerSidebar', docsPluginId: 'makaleler', label: 'Makaleler', position: 'left',},
+        {type: 'docSidebar', sidebarId: 'acikKaynakSidebar', docsPluginId: 'acik-kaynak', label: 'Açık Kaynak', position: 'left',},
+        //{to: '/blog', label: 'Blog', position: 'left'},
+        //{to: '/hakkimda', label: 'Hakkımda', position: 'left'},
+
+        // Social media icons
+        {href: 'https://github.com/akkoyun', position: 'right', className: 'navbar-icon-link', html: `<img src="/img/icons/github.png" class="navbar-icon" />`,},
+        {href: 'https://www.linkedin.com/in/akkoyun', position: 'right', className: 'navbar-icon-link', html: `<img src="/img/icons/linkedin.png" class="navbar-icon" />`,},
+        {href: 'https://x.com/akkoyun', position: 'right', className: 'navbar-icon-link', html: `<img src="/img/icons/x.png" class="navbar-icon" />`,},
+
       ],
     },
 

@@ -1,0 +1,152 @@
+---
+id: max78630
+title: MAX78630 – Polly Phase Energy Analyzer Kütüphanesi
+description: Üç fazlı (polifaze) enerji izleme uygulamaları için MAX78630 entegresiyle çalışan Arduino/C++ kütüphanesi.
+sidebar_label: MAX78630
+github_url: https://github.com/akkoyun/MAX78630
+tags:
+  - C++
+  - Arduino
+  - Energy Monitoring
+  - MAX78630
+  - Polyphase
+  - IoT
+hide_title: false
+pagination_prev: null
+pagination_next: null
+---
+
+# MAX78630 Kütüphanesi
+
+**MAX78630**, üç fazlı enerji izleme uygulamaları için tasarlanmış, yüksek hassasiyetli bir ölçüm işlemcisidir. Bu kütüphane ise MAX78630 tabanlı enerji kartlarından tüm enerji parametrelerini kolay ve okunabilir bir API ile okumayı amaçlayan bir **Arduino/C++ kütüphanesidir**.
+
+Amaç, üç fazlı şebekelerde:
+
+- Gerilim ve akım büyüklüklerini,
+- Aktif / reaktif / görünür güçleri,
+- Enerji sayaçlarını,
+- Güç faktörünü ve frekansı,
+
+gibi kritik parametreleri **gömülü tarafta minimum kod karmaşasıyla** alıp, üst katmanda (IoT platformu, SCADA, dashboard vs.) anlamlı hale getirmektir.
+
+## Ne İşe Yarar?
+
+MAX78630, tipik endüstriyel üç faz konfigürasyonları için tasarlanmış bir enerji ölçüm işlemcisidir.  
+
+Senin kart tasarımlarınla birlikte kullanıldığında:
+
+- Üç fazlı (R–S–T) sistemlerde,
+- Akım transformatörü, Rogowski bobini veya şönt direnç ile akım ölçümü,
+- Yüksek çözünürlüklü delta-sigma ADC üzerinden hassas ölçüm,
+- UART üzerinden host mikrokontrolcü ile haberleşme,
+
+senaryosunu tek bir kütüphane ile tamamlamış oluyorsun.
+
+Bu kütüphane, MAX78630’ın **tüm karmaşık register / frame yapısını** senin yerine yöneterek, sana “hazır işlenmiş” enerji parametreleri sunuyor.
+
+## Öne Çıkan Özellikler
+
+- **Üç Faz (Polifaze) Destek**  
+  R, S, T fazlarının her biri için ayrı ayrı ölçüm ve toplam değerlerin hesaplanması.
+
+- **Geniş Ölçüm Parametresi Yelpazesi**  
+  Gerilim, akım, güç, enerji, güç faktörü, frekans gibi temel parametreler yanında, temel (fundamental) ve harmonik bileşenleri de okuyabilme.
+
+- **Hazır Ölçüm İşlemcisi Üzerinden Doğrudan Okuma**  
+  MAX78630’ın gömülü işlemcisi, hesaplamaları içeride yapıyor; kütüphane ile sen sadece “sonuç” verilerini çekiyorsun.
+
+- **Arduino Dostu API**  
+  Arduino core ile uyumlu, basit ve anlaşılır fonksiyon seti:  
+  `begin()`, `readVoltage()`, `readCurrent()`, `readPower()` vb. tarzında bir kullanım mantığı.
+
+- **Enerji Kartların (EnergyBoard / 3-Phase Analyzer) ile Uyumlu**  
+  Mevcut enerji ölçüm kartlarınla bire bir kullanılabilecek şekilde tasarlandığı için, hem laboratuvar ortamında hem sahada rahat kullanılabiliyor.
+
+- **Uzun Süreli İzleme ve Analiz İçin Uygun**  
+  IoT gateway, veri kaydedici (datalogger), saha izleme cihazları ve bulut tabanlı enerji yönetim sistemleriyle entegrasyona hazır.
+
+## Ölçülen Temel Parametreler
+
+Kütüphane üzerinden, her faz için aşağıdaki parametreleri okuyabilirsin (R / S / T):
+
+- Anlık gerilim, RMS gerilim, Temel bileşen gerilimi, Harmonik gerilim, Şebeke frekansı
+- Anlık akım, RMS akım, Tepe (peak) akım, Temel bileşen akımı, Harmonik akım  
+- Aktif güç, Reaktif güç, Görünür güç, Temel bileşen gücü, Harmonik güç  
+- Güç faktörü (PF), Temel/harmonik reaktif ve VA bileşenleri, Entegre enerji sayaçları (kWh, kVArh vb.), Entegre sıcaklık sensörü (IC sıcaklığı)  
+
+Ayrıca, belirlediğin eşik değerlerine göre **alarm limitleri** ayarlayabilir, faz dengesizliği, aşırı yük, aşırı gerilim vb. durumları sahada hızlı tespit edebilirsin.
+
+## Tipik Kullanım Senaryoları
+
+Bu kütüphaneyi özellikle şu projelerde kullanmak için tasarlamış olabilirsin:
+
+- Endüstriyel üç fazlı enerji izleme panoları  
+- Tarımsal sulama pompaları ve motor koruma panoları  
+- Fabrika, atölye ve tesisler için enerji yönetim sistemleri  
+- IoT tabanlı enerji analizi, tüketim optimizasyonu ve karbon ayak izi takibi  
+- Test düzeneklerinde yük profili ve güç kalitesi analizi  
+
+## Kurulum
+
+```bash
+git clone https://github.com/akkoyun/MAX78630
+```
+
+Arduino projene libraries klasörü altına kopyalayarak da kullanabilirsin.
+
+### Basit Örnek
+
+Aşağıdaki örnek, tipik bir üç faz enerji kartında faz R için temel parametrelerin okunması mantığını gösteren temsili bir örnektir:
+
+```cpp
+#include <MAX78630.h>
+
+MAX78630 Energy;
+
+void setup() {
+    Serial.begin(115200);
+
+    // UART / donanım ayarlarını yaptıktan sonra
+    if (!Energy.begin()) {
+        Serial.println("MAX78630 bulunamadı veya başlatılamadı!");
+        while (1);
+    }
+
+    Serial.println("MAX78630 baslatildi.");
+}
+
+void loop() {
+    float vR = Energy.getVoltageR();     // Faz R gerilimi (V)
+    float iR = Energy.getCurrentR();     // Faz R akımı (A)
+    float pR = Energy.getActivePowerR(); // Faz R aktif güç (W)
+    float pfR = Energy.getPowerFactorR();// Faz R güç faktörü
+
+    Serial.print("VR = "); Serial.print(vR);
+    Serial.print(" V, IR = "); Serial.print(iR);
+    Serial.print(" A, PR = "); Serial.print(pR);
+    Serial.print(" W, PF = "); Serial.println(pfR);
+
+    delay(500);
+}
+```
+
+> Not: Fonksiyon isimleri projendeki gerçek API ile bire bir uyuşmayabilir; bu bölüm, kütüphanenin “kullanım niyetini” anlatan temsili bir örnektir.
+Gerçek imzalar için GitHub’daki examples/ klasörünü ve README’yi referans al.
+
+## Katkı ve Geliştirme
+
+MAX78630 kütüphanesi de diğer kütüphanelerin gibi açık geliştirme modeliyle ilerliyor. Gerçek saha uygulamalarından gelecek geri bildirimler, bu projenin en değerli parçası.
+
+Katkı vermek istersen:
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+Özellikle farklı sensör kombinasyonları, farklı şebeke topolojileri veya özel alarm senaryoları için yaptığın denemeleri paylaşman, kütüphaneyi çok daha olgun hale getirecektir.
+
+## Kullanım İzni
+
+MAX78630 kütüphanesini dilediğin projede, dilediğin kapsamda kullanabilirsin.
+Herhangi bir lisans kısıtlaması koymuyorum; amacım bu kütüphanenin mümkün olduğu kadar çok sahada işe yaraması.
+
+Daha özel bir kullanım ihtiyacın, ticari entegrasyon planın veya teknik bir sorunun olursa bana doğrudan e-posta ile ulaşabilirsin: **akkoyun@me.com** Senin kullanım senaryonu duymak ve proje hakkında geri bildirim almak benim için oldukça değerli.
