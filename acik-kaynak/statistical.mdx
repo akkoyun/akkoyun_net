@@ -1,0 +1,143 @@
+---
+title: İstatistiksel Analiz Kütüphanesi
+description: Sensör verisini temizlemek, filtrelemek ve analiz etmek için geliştirilmiş hafif ve hızlı bir Arduino istatistik kütüphanesi.
+slug: /statistical
+sidebar_label: Statistical
+sidebar_position: 5
+github_url: https://github.com/akkoyun/Statistical
+hide_title: false
+pagination_prev: null
+pagination_next: null
+tags:
+  - arduino
+  - statistics
+  - sensor-data
+  - filtering
+  - library
+  - open source
+---
+
+**Statistical**, Arduino ve diğer gömülü sistemlerde sensör verisini işlerken ihtiyaç duyulan temel ve gelişmiş **istatistiksel analiz fonksiyonlarını** tek bir çatı altında toplayan hafif bir kütüphanedir. Sensör gürültüsünü azaltmak, ani sıçramaları (spike) bastırmak, dağılımı analiz etmek ve zaman içinde verinin eğilimini incelemek için optimize edilmiştir.
+
+Başlangıçta medyan / mod tabanlı filtreleme için geliştirilmiş olsa da bugün hem **sabit boyutlu diziler (array)** hem de **akış (stream)** tabanlı veriler üzerinde çalışan kapsamlı bir istatistik seti sunar.
+
+Amaç, sahadan gelen ham veriyi daha anlamlı ve kontrol edilebilir hale getirerek sensör tabanlı sistemlerde doğruluk ve kararlılığı artırmaktır.
+
+## Dizi (Array) İstatistikleri
+
+Sabit boyutlu `float` dizileri üzerinde:
+
+- Average, Sum, Max, Min, Sq_Sum
+- Arithmetic / Geometric / RMS / Extended RMS Average
+- Sigma, Quartile, IQR
+- Standard Deviation & Standard Deviation Error
+- Variance
+- Bubble Sort tabanlı sıralama
+
+Bu sayede örneğin bir sensörün son N ölçümünden:
+
+- Gürültüden arındırılmış **medyan** değeri
+- Anlık **min–max aralığı**
+- **Standart sapma** ve **varyans** bilgisini
+
+tek seferde alabilecek bir yapı kurabiliyorsun.
+
+## Akış (Stream) İstatistikleri
+
+Uzun süre çalışan sistemlerde veriyi dizilerde tutmak yerine **stream tabanlı** takip etmek gerektiğinde:
+
+- Toplam veri adedi (count)  
+- Akışın aritmetik ortalaması  
+
+Bu yöntem, RAM’in sınırlı olduğu mikrodenetleyicilerde uzun süreli ölçümlerde büyük avantaj sağlar. Her yeni ölçüm geldiğinde ortalama, minimum, maksimum gibi metrikler anında güncellenir ve tüm veriyi hafızada tutmaya gerek kalmaz.
+
+## Lineer Regresyon (Array & Stream)
+
+Hem sabit boyutlu diziler hem de akış verisi için:
+
+- **Slope (eğim)**  
+- **Offset (kesişim)**  
+- **R² (determinasyon katsayısı)**  
+
+hesaplayarak, sensör verisinin zaman içindeki trendini takip etmeye izin veriyor.
+
+Bu analiz özellikle şu durumlarda kritik önem taşır:
+
+- Sensör **kalibrasyonu ve doğruluk kontrolü**
+- Zaman içinde oluşan **drift/kayma** tespiti
+- Yavaş değişen süreçlerin **trend analizleri**
+
+## Eğim Tabanlı Anomali Algılama
+
+Kütüphanede, son **n adet ölçümün eğimini** hesaplayarak:
+
+- Sensör verisinin **yükseliş / düşüş trendini**
+- Ani değişimlerin **normal mi, anomali mi** olduğuna dair basit bir fikir veren  
+  slope tabanlı bir yapı da var.
+
+Bu temel yapı, daha üst seviye **anomaly detection** ve karar mekanizmalarına altlık oluşturmak için kullanılabilir.
+
+## Ne Zaman Kullanmalısın?
+
+Statistical tam olarak şu senaryolarda işine yarıyor:
+
+- ADC üzerinden aldığın sensör değeri **gürültülü ve arada saçma spike’lar** atıyorsa  
+- Uzun süreli ölçümlerde **ortalama, min, max, standart sapma** gibi metrikleri hafızayı doldurmadan takip etmek istiyorsan  
+- Elindeki ham sensör verisinin **trendini, eğimini, R² değerini** görmek istiyorsan  
+- Daha sonra ML/edge tarafında kullanacağın **basit özellikleri (features)** mikrodenetleyici tarafında çıkarmak istiyorsan  
+
+Kısacası: **ham veriyi olduğu gibi göndermek yerine, sahada işleyip anlamlı hale getirmek** istediğin her projede Statistical kullanabilirsin.
+
+## Kurulum
+
+### Arduino IDE
+
+1. Arduino IDE’de **Library Manager**’ı aç.  
+2. Arama kutusuna **“Statistical”** yaz.  
+3. `Statistical` (Author: *Günce Akkoyun*) kütüphanesini seç ve **Install** de.  
+
+Alternatif olarak:
+
+- GitHub’daki [Releases](https://github.com/akkoyun/Statistical/releases) bölümünden `.zip` indirip  
+- **Sketch → Include Library → Add .ZIP Library…** ile manuel ekleyebilirsin.
+
+### PlatformIO
+
+`platformio.ini` dosyanda ilgili ortam (env) içine şu şekilde ekleyebilirsin:
+
+```ini
+[env:my_board]
+platform = ...
+board = ...
+framework = arduino
+
+lib_deps = akkoyun/Statistical
+```
+
+> Versiyon sabitlemek istersen @ ile versiyon ekleyebilirsin (örneğin @^2.1.0 gibi).
+
+## Kullanım Senaryoları
+
+Aklında daha net canlanması için birkaç tipik kullanım senaryosu:
+
+- **Medyan filtreleme:** Akım, gerilim, sıcaklık gibi ölçümlerde spike değerleri bastırmak.
+- **Sensör verisi normalize etme:** Geometrik ortalama veya RMS ortalama ile daha kararlı çıktılar elde etmek.
+- **Uzun süreli logging:** Her veriyi kaydetmek yerine periyodik ortalama/min/max/stddev kaydederek hafıza kullanımını azaltmak.
+- **Trend analizi:** Lineer regresyon ile eğim, offset ve R² hesaplayarak sensör davranışını takip etmek.
+
+## Katkı ve Geliştirme
+
+Statistical, gerçek sahada kullanılan projelerden gelen ihtiyaçlara göre sürekli gelişen bir kütüphanedir. Kullanıcı geri bildirimleri yeni fonksiyonların eklenmesi ve mevcut yapının iyileştirilmesi için kritik öneme sahiptir.
+
+Katkı vermek istersen:
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+## Kullanım İzni
+
+Statistical kütüphanesini hem kişisel hem de ticari projelerinizde özgürce kullanabilirsiniz. Herhangi bir lisans kısıtı uygulanmamaktadır. Amacım, bu kütüphanenin mümkün olduğunca fazla gerçek dünya projesinde yer almasıdır.
+
+Özel bir entegrasyon ihtiyacınız, ticari bir planınız veya teknik bir sorunuz varsa bana e‑posta üzerinden her zaman ulaşabilirsiniz: **akkoyun@me.com**
+
+Geri bildirim göndermeniz veya kullanım senaryolarınızı paylaşmanız projeyi geliştirmem adına büyük katkı sağlar.
