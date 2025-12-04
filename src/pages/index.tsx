@@ -41,7 +41,7 @@ export default function Home(): ReactNode {
               endüstriyel müşterilerim için yüzlerce ürünün ortaya çıkmasına katkı sağladı.
             </p>
             <p style={{fontSize: '1.05rem', lineHeight: '1.55'}}>
-              Aynı zamanda bir eş, bir baba ve bir öğretmenim. Üretmeye, öğrenmeye ve öğrendiklerimi
+              Aynı zamanda bir eş, bir baba ve bir öğreticiyim. Üretmeye, öğrenmeye ve öğrendiklerimi
               paylaşmaya duyduğum tutku, hem çalışmalarımın hem de kişisel yolculuğumun temelini
               oluşturuyor.
             </p>
