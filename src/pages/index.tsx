@@ -21,7 +21,7 @@ export default function Home(): ReactNode {
           }}>
           <img
             src="/img/kisisel/gunce-akkoyun-1.jpeg"
-            style={{borderRadius: '12px', maxWidth: '300px', width: '100%'}}
+            style={{borderRadius: '12px', maxWidth: '350px', width: '100%'}}
             alt="Mehmet Günce Akkoyun"
           />
 
@@ -30,20 +30,13 @@ export default function Home(): ReactNode {
               Mehmet Günce Akkoyun
             </Heading>
             <p style={{fontSize: '1.05rem', lineHeight: '1.55'}}>
-              Ben Günce Akkoyun. Elektronik ve yazılım mühendisliği alanında uzmanlaşmış, üretim odaklı
-              donanım projeleri geliştiren bir mühendisim. Uzun yıllardır IoT, tarımsal teknolojiler ve
-              endüstriyel otomasyon üzerine çalışıyorum ve fikirden seri üretime uzanan ürün geliştirme
-              yolculuğunun her aşamasında aktif rol alıyorum.
+              Ben Günce Akkoyun. Elektronik ve yazılım mühendisliği alanında çalışıyorum; ağırlıklı olarak üretim odaklı donanım projeleri geliştiriyor, IoT, tarımsal teknolojiler ve endüstriyel otomasyon üzerine yoğunlaşıyorum. Uzun yıllardır fikir aşamasından seri üretime kadar uzanan ürün geliştirme sürecinin her adımında aktif olarak yer alıyorum.
             </p>
             <p style={{fontSize: '1.05rem', lineHeight: '1.55'}}>
-              Proje tanımlama, Ar‑Ge yönetimi, elektronik tasarım, gömülü yazılım, PCB geliştirme, mekanik
-              tasarım, prototipleme ve test süreçlerinde edindiğim deneyim; hem kendi projelerimde hem de
-              endüstriyel müşterilerim için yüzlerce ürünün ortaya çıkmasına katkı sağladı.
+              Proje tanımlama, Ar-Ge yönetimi, elektronik tasarım, gömülü yazılım, PCB geliştirme, mekanik tasarım, prototip üretimi ve test süreçlerindeki deneyimim; hem kendi projelerimde hem de endüstriyel müşterilerim için pek çok ürünün ortaya çıkmasına olanak sağladı. Üretim disiplinini, mühendislik prensipleriyle birleştirerek işlevsel, güvenilir ve sahada gerçek ihtiyaçları çözen sistemler geliştirmeyi önemsiyorum.
             </p>
             <p style={{fontSize: '1.05rem', lineHeight: '1.55'}}>
-              Aynı zamanda bir eş, bir baba ve bir öğreticiyim. Üretmeye, öğrenmeye ve öğrendiklerimi
-              paylaşmaya duyduğum tutku, hem çalışmalarımın hem de kişisel yolculuğumun temelini
-              oluşturuyor.
+              Bunların yanında bir eş, bir baba ve öğrenmeye olduğu kadar öğretmeye de önem veren biriyim. Üretme isteğim, merakım ve bilgiyi paylaşma motivasyonum hem mesleki yaklaşımımın hem de kişisel yolculuğumun temelini oluşturuyor.
             </p>
           </div>
         </section>

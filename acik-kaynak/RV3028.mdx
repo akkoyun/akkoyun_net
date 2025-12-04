@@ -1,0 +1,187 @@
+---
+id: rv3028
+title: RV3028 RTC Kütüphanesi
+description: Micro Crystal RV-3028-C7 tabanlı, ultra düşük güç tüketimli gerçek zaman saati (RTC) kütüphanesi, teknik özellikler ve geliştirme kiti rehberi.
+slug: /rv3028
+sidebar_label: RV3028
+sidebar_position: 4
+github_url: https://github.com/akkoyun/RV3028
+hide_title: false
+pagination_prev: null
+pagination_next: null
+tags:
+  - RTC
+  - RV3028
+  - Geliştirici Kiti
+  - MicroCrystal
+  - IoT
+  - Low Power
+  - Arduino
+  - Embedded Systems
+  - Real Time Clock
+  - Donanım
+---
+
+# RV3028 — Ultra Düşük Güç Tüketimli RTC Kütüphanesi
+
+`RV3028`, **Micro Crystal RV-3028-C7** gerçek zaman saati (RTC) modülü için yazdığım, düşük güç tüketimi ve yüksek doğruluğa odaklanan bir Arduino kütüphanesidir. Gömülü sistemlerde, özellikle **batarya ile çalışan IoT projelerinde**, tarih–saat bilgisini güvenilir ve ultra düşük tüketimle tutmak için tasarlandı.
+
+:::tip[**Ücretsiz Geliştirici Kiti Nasıl Temin Edilir?**]
+
+<div style={{ textAlign: "center", margin: "32px 0" }}><img src="/img/acik-kaynak/rv3028-evkit.png" alt="Manyetik Doyum Sensörü" style={{ width: "30%",borderRadius: "12px" }}/></div>
+
+RV3028 için ücretsiz geliştirici kiti edinmek oldukça basit bir süreç. Micro Crystal’ın resmi RV-3028-C7 ürün sayfasına girdikten sonra, tabloda yer alan “Free Samples” bağlantısından örnek talep formuna ulaşabilirsiniz. Form açıldığında ilk sırada, ürünlerin Rusya’ya yeniden ihraç edilmeyeceğine dair bir onay kutusu bulunuyor; ilerlemek için bu kutunun işaretlenmesi gerekiyor. Ardından üçe kadar ürün seçme hakkınız var. Ben kendi başvurumda RV-3028-C7 ve RV-3028-C8 modellerini tercih ettim. Demo Board seçeneğini “Yes” olarak işaretlediğinizde geliştirme kiti de gönderiliyor; ayrıca “5 pcs Sample” bölümünü “Yes” yaparak beş adet çip talep edebiliyorsunuz. Kullanım alanı kısmında “Consumer”, hedef uygulama bölümünde ise “Home Automation” seçtim. Açıklama alanına modülü nerede kullanacağınızı belirten kısa bir proje tanımı yazmanız yeterli. Son olarak adres ve iletişim bilgilerinizi girip formu gönderebilirsiniz. Genellikle hızlı geri dönüş yapıyorlar ve başvurunuz uygun bulunursa hem çipleri hem de demoboard’ı ücretsiz olarak gönderiyorlar.
+:::
+
+## Özet
+
+**RV-3028-C7**, vakum altında kapatılmış seramik paket içerisinde entegre CMOS devre ve 32.768 kHz kristal içeren bir RTC modülüdür.  
+
+Bu modül:
+
+- Çok düşük akım tüketimi (nanoampere seviyesinde),
+- Geniş çalışma gerilim aralığı (1.1 V – 5.5 V),
+- Fabrika çıkışı yüksek zaman doğruluğu,
+- Yedek besleme ve şarj desteği
+
+gibi özelliklerle özellikle **uzun süre sahada kalacak IoT node’ları** için oldukça uygun.
+
+Bu kütüphane, RV-3028’in çekirdek özelliklerini basit ama kontrollü bir API ile kullanmana imkân verir.
+
+## Temel Özellikler
+
+Kütüphane, RV-3028’in aşağıdaki yeteneklerini kullanmana yardımcı olur:
+
+- **Takvim ve saat**  
+  Yıl, ay, gün, haftanın günü, saat, dakika ve saniye yönetimi
+
+- **32-bit UNIX Zaman Sayacı**  
+  Uzun süreli loglama ve zaman damgalı veri için ideal
+
+- **Alarm ve Kesme (Interrupt) Desteği**  
+  Belirli bir zamana göre wake-up veya event tetikleme
+
+- **Sayaç ve Timer Fonksiyonları**  
+  Periodik görevler veya zaman tabanlı tetikleme için kullanılabilir
+
+- **Dahili EEPROM & RAM**  
+  Kullanıcıya ayrılmış non-volatile bellek alanı
+
+- **Yedek Besleme & Trickle Charge**  
+  Batarya ile ana besleme arasında otomatik geçiş
+
+- **I²C Arayüz (400 kHz)**  
+  Standart Wire/I2C altyapısıyla uyumlu
+
+## Neden RV3028 Kullanmalıyım?
+
+Birçok projede tarih–saat takibi için MCU içi RTC, yazılım sayaçları veya NTP yeterli gibi görünse de, uzun süre sahada kalacak düşük tüketimli cihazlarda bu çözümler güvenilirlik ve doğruluk açısından yetersiz kalabiliyor.
+
+- Cihaz **uzun süre uykuda kalıyorsa**,
+- **Her zaman internete bağlı değilse**,
+- Güç tüketimi **kritik seviyedeyse**,
+- Zaman bilgisini **güvenilir ve kalıcı** tutmak zorundaysan,
+
+harici ve **ultra düşük güç tüketimli bir RTC** kaçınılmaz hâle geliyor. RV-3028 bu noktada, güç tüketimi + doğruluk kombinasyonuyla öne çıkıyor.
+
+:::info[**Geliştirici Kiti & Donanım Kaynakları**]
+RV3028’in teknik dökümanları, uygulama notları ve demoboard detayları için Micro Crystal’ın resmi kaynaklarını inceleyebilirsiniz:  
+**https://www.microcrystal.com/en/products/real-time-clock-rtc-modules/rv-3028-c7**
+:::
+
+## Kurulum
+
+### Arduino IDE Üzerinden
+
+1. **Library Manager**’ı aç  
+2. `RV3028` anahtar kelimesiyle ara  
+3. Yazar kısmında `Gunce Akkoyun` görünen kütüphaneyi seç  
+4. Install diyerek projene ekle
+
+Alternatif olarak GitHub’dan indirdiğin ZIP’i **Sketch → Include Library → Add .ZIP Library** ile ekleyebilirsin.
+
+### PlatformIO Üzerinden
+
+`platformio.ini` içerisine:
+
+```ini
+lib_deps = akkoyun/RV3028
+```
+
+yazman yeterli.
+
+### Temel Kullanım
+
+#### Başlangıç
+
+```cpp
+#include <Wire.h>
+#include <RV3028.h>
+
+RV3028 RTC;
+
+void setup() {
+    Wire.begin();
+    Serial.begin(115200);
+
+    if (!RTC.begin()) {
+        Serial.println("RV3028 bulunamadı!");
+        while (1);
+    }
+
+    // İlk kurulumda bir defaya mahsus tarih–saat atama yapılabilir:
+    // RTC.setDateTime(2025, 1, 1, 12, 0, 0); // YYYY, MM, DD, HH, MM, SS
+}
+
+void loop() {
+    RTC.update();  // İç zaman bilgisini güncelle
+
+    Serial.print("Tarih: ");
+    Serial.print(RTC.getYear());
+    Serial.print("-");
+    Serial.print(RTC.getMonth());
+    Serial.print("-");
+    Serial.print(RTC.getDay());
+
+    Serial.print("  Saat: ");
+    Serial.print(RTC.getHours());
+    Serial.print(":");
+    Serial.print(RTC.getMinutes());
+    Serial.print(":");
+    Serial.println(RTC.getSeconds());
+
+    delay(1000);
+}
+```
+
+> Not: Fonksiyon isimleri ve imza detayları için mutlaka src klasöründeki header dosyalarına ve GitHub README’sine göz at.
+
+### Alarm ve Uykudan Uyandırma Senaryosu
+
+RV-3028’i, sistemi uykudan uyandıran bir alarm kaynağı olarak kullanabilirsin.
+
+Basit bir örnek akış:
+
+1. RV-3028 üzerinde belirli bir dakika/saat için alarm ayarla
+2. Alarm pinini MCU’nun interrupt pinine bağla
+3. MCU’yu deep sleep moduna al
+4. Alarm zamanı geldiğinde kesme tetiklenir, MCU uyanır
+5. Sensör ölçümleri, LoRa/GSM gönderimi vs. yapılır
+6. Bir sonraki alarm kurulup tekrar uykuya geçilir
+
+Bu sayede sahadaki bir node, aylarca–yıllarca çok düşük tüketimle çalışabilir.
+
+## Katkı ve Geliştirme
+
+RV3028 kütüphanesi de diğer kütüphanelerin gibi açık geliştirme modeliyle ilerliyor. Gerçek saha uygulamalarından gelecek geri bildirimler, bu projenin en değerli parçası.
+
+Katkı vermek istersen:
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+## Kullanım İzni
+
+RV3028 kütüphanesini hem kişisel hem de ticari projelerinizde özgürce kullanabilirsiniz. Herhangi bir lisans kısıtı koymuyorum; amacım bu kütüphanenin mümkün olduğunca çok gerçek dünyada kullanılmasını sağlamak.
+
+Daha özel bir kullanım ihtiyacın, ticari entegrasyon planın veya teknik bir sorunun olursa bana doğrudan e-posta ile ulaşabilirsin: **akkoyun@me.com** Senin kullanım senaryonu duymak ve proje hakkında geri bildirim almak benim için oldukça değerli.
