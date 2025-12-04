@@ -33,7 +33,5 @@ jobs:
           source: "build/*"
           target: "/opt/akkoyun_net/build"
           strip_components: 1
-          timeout: 300
-          command_timeout: 300
           rm: true
           debug: true
