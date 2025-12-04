@@ -17,6 +17,10 @@ tags:
   - open source
 ---
 
+import OpenSourceLayout from '@site/src/layouts/OpenSourceLayout';
+
+<OpenSourceLayout>
+
 **Statistical**, Arduino ve diğer gömülü sistemlerde sensör verisini işlerken ihtiyaç duyulan temel ve gelişmiş **istatistiksel analiz fonksiyonlarını** tek bir çatı altında toplayan hafif bir kütüphanedir. Sensör gürültüsünü azaltmak, ani sıçramaları (spike) bastırmak, dağılımı analiz etmek ve zaman içinde verinin eğilimini incelemek için optimize edilmiştir.
 
 Başlangıçta medyan / mod tabanlı filtreleme için geliştirilmiş olsa da bugün hem **sabit boyutlu diziler (array)** hem de **akış (stream)** tabanlı veriler üzerinde çalışan kapsamlı bir istatistik seti sunar.
@@ -125,19 +129,4 @@ Aklında daha net canlanması için birkaç tipik kullanım senaryosu:
 - **Uzun süreli logging:** Her veriyi kaydetmek yerine periyodik ortalama/min/max/stddev kaydederek hafıza kullanımını azaltmak.
 - **Trend analizi:** Lineer regresyon ile eğim, offset ve R² hesaplayarak sensör davranışını takip etmek.
 
-## Katkı ve Geliştirme
-
-Statistical, gerçek sahada kullanılan projelerden gelen ihtiyaçlara göre sürekli gelişen bir kütüphanedir. Kullanıcı geri bildirimleri yeni fonksiyonların eklenmesi ve mevcut yapının iyileştirilmesi için kritik öneme sahiptir.
-
-Katkı vermek istersen:
-- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
-- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
-- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
-
-## Kullanım İzni
-
-Statistical kütüphanesini hem kişisel hem de ticari projelerinizde özgürce kullanabilirsiniz. Herhangi bir lisans kısıtı uygulanmamaktadır. Amacım, bu kütüphanenin mümkün olduğunca fazla gerçek dünya projesinde yer almasıdır.
-
-Özel bir entegrasyon ihtiyacınız, ticari bir planınız veya teknik bir sorunuz varsa bana e‑posta üzerinden her zaman ulaşabilirsiniz: **akkoyun@me.com**
-
-Geri bildirim göndermeniz veya kullanım senaryolarınızı paylaşmanız projeyi geliştirmem adına büyük katkı sağlar.
+</OpenSourceLayout>
