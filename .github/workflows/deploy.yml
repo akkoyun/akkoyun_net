@@ -33,5 +33,4 @@ jobs:
           source: "build/*"
           target: "/opt/akkoyun_net/build"
           strip_components: 1
-          rm: true
           debug: true
