@@ -1,0 +1,117 @@
+---
+title: DS28C 1-Wire Authentication Kütüphanesi
+description: Maxim Integrated DS28C ailesi için geliştirilmiş hafif ve güvenilir bir 1-Wire kimlik doğrulama (authentication) kütüphanesi.
+slug: /ds28c
+sidebar_label: DS28C
+sidebar_position: 7
+github_url: https://github.com/akkoyun/DS28C
+hide_title: false
+pagination_prev: null
+pagination_next: null
+tags:
+  - ds28c
+  - maxim
+  - 1-wire
+  - authentication
+  - secure-device
+  - arduino
+  - open source
+---
+
+**DS28C** ailesi; güvenli kimlik doğrulama, cihaz doğrulama (device authentication) ve güvenli erişim gerektiren gömülü sistemlerde kullanılan bir **1-Wire/I2C güvenlik entegresidir**. Bu kütüphane, DS28C entegreleri ile minimalist ama güçlü bir API üzerinden haberleşmeyi sağlar.
+
+## Özellikler
+
+Bu kütüphane ile DS28C üzerinden şu işlemleri kolayca yapabilirsin:
+
+- 1-Wire veya I2C üzerinden güvenli kimlik doğrulama
+- Unique ID okuma
+- SHA-256 tabanlı challenge–response işlemleri
+- Bellek alanlarına güvenli erişim
+- Hızlı başlatma & düşük kaynak tüketimi
+- Arduino ve benzeri mikrodenetleyiciler ile tam uyum
+
+Tüm 1-Wire/I2C trafiği optimize edilmiştir ve düşük güç tüketen cihazlarda güvenli işlem yapmaya uygundur.
+
+## Uygulama Senaryoları
+
+DS28C özellikle şu alanlarda tercih edilir:
+
+- IoT cihazlarında sahte cihaz engelleme
+- Pil paketlerinde güvenli doğrulama
+- Endüstriyel ekipmanlarda lisans koruma
+- Sensör modüllerinde unique ID doğrulama
+- Akıllı tarım & saha cihazlarında güvenli protokol uygulaması
+
+Cihaz doğrulama gerektiren ticari ürünler için ideal bir güvenlik çözümüdür.
+
+## Kurulum
+
+### Arduino IDE
+
+1. Arduino IDE → **Library Manager**
+2. Arama: **DS28C**
+3. *akkoyun / DS28C* kütüphanesini yükle
+
+### PlatformIO
+
+`platformio.ini` içine ekle:
+
+```ini
+lib_deps = akkoyun/DS28C
+```
+
+> Dilersen versiyon sabitleyebilirsin:
+
+```ini
+lib_deps = akkoyun/DS28C@^1.0.0
+```
+
+## Temel Kullanım
+
+```cpp
+#include <DS28C.h>
+
+DS28C auth;
+
+void setup() {
+    Serial.begin(115200);
+    auth.begin();
+}
+
+void loop() {
+    uint64_t uid = auth.getUID();
+    Serial.print("UID: ");
+    Serial.println(uid, HEX);
+
+    delay(1000);
+}
+```
+
+Kütüphane başlatıldığında cihaz otomatik taranır ve doğrulama yapılabilir hale gelir.
+
+## Gelişmiş Fonksiyonlar
+
+Bu kütüphane aşağıdaki güvenlik fonksiyonlarını da içerir:
+
+- ```readMemory()``` — Güvenli bellek okuma
+- ```writeMemory()``` — Yetkili bellek yazma
+- ```computeSHA()``` — SHA-256 challenge–response
+- ```verify()``` — Cihaz doğrulama
+- ```getUID()``` — Unique ID okuma
+
+Güvenlik odaklı gömülü projelerde hafif ve güvenilir bir çözüm sunar.
+
+## Katkı ve Geliştirme
+
+DS28C, gerçek sahada kullanılan projelerden gelen ihtiyaçlara göre sürekli gelişen bir kütüphanedir. Kullanıcı geri bildirimleri yeni fonksiyonların eklenmesi ve mevcut yapının iyileştirilmesi için kritik öneme sahiptir.
+
+Katkı vermek istersen:
+
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+## Kullanım İzni
+
+DS28C kütüphanesini hem kişisel hem de ticari projelerinizde özgürce kullanabilirsiniz. Herhangi bir lisans kısıtı uygulanmamaktadır. Amacım, bu kütüphanenin mümkün olduğunca fazla gerçek dünya projesinde yer almasıdır. Özel bir entegrasyon ihtiyacınız, ticari bir planınız veya teknik bir sorunuz varsa bana e‑posta üzerinden her zaman ulaşabilirsiniz: **akkoyun@me.com** Geri bildirim göndermeniz veya kullanım senaryolarınızı paylaşmanız projeyi geliştirmem adına büyük katkı sağlar.
