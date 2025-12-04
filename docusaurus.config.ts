@@ -156,11 +156,11 @@ const config: Config = {
         {
           title: 'Site',
           items: [
-            { label: 'Kitaplar',    to: '/kitaplar' },
-            { label: 'Makaleler',   to: '/makaleler' },
-            { label: 'Açık Kaynak', to: '/acik-kaynak' },
-            { label: 'Blog',        to: '/blog' },
-            { label: 'Hakkımda',    to: '/hakkimda' },
+            { label: 'Kitaplar',    to: '/kitaplar/' },
+            { label: 'Makaleler',   to: '/makaleler/' },
+            { label: 'Açık Kaynak', to: '/acik-kaynak/' },
+            //{ label: 'Blog',        to: '/blog' },
+            //{ label: 'Hakkımda',    to: '/hakkimda' },
           ],
         },
         {
@@ -189,6 +189,15 @@ const config: Config = {
     },
 
   } satisfies Preset.ThemeConfig,
+
+  // GoatCounter Analytics
+  scripts: [
+    {
+      src: 'https://gc.zgo.at/count.js',
+      async: true,
+      'data-goatcounter': 'https://akkoyun.goatcounter.com/count',
+    } as any,
+  ],
 
 };
 
