@@ -1,0 +1,130 @@
+---
+title: MAX17055 Pil Yönetim Kütüphanesi
+description: MAX17055 Li-Ion/LiPo yakıt göstergesi (fuel gauge) için geliştirilmiş hızlı, hafif ve güvenilir bir Arduino kütüphanesi.
+slug: /max17055
+sidebar_label: MAX17055
+sidebar_position: 6
+github_url: https://github.com/akkoyun/MAX17055
+hide_title: false
+pagination_prev: null
+pagination_next: null
+tags:
+  - arduino
+  - battery
+  - fuel-gauge
+  - max17055
+  - power-management
+  - open source
+---
+
+**MAX17055**, tek hücre Li-Ion / LiPo pillerin **şarj durumu (SoC)**, **sağlık durumu (SoH)** ve **gerçek zamanlı çalışma parametrelerini** ölçmek için kullanılan gelişmiş bir **yakıt göstergesi (fuel gauge)** entegresidir.
+
+Bu kütüphane, MAX17055’in sunduğu tüm temel fonksiyonlara kolay erişim sağlayan, gömülü sistemlerde güvenilir pil ölçümleri yapılmasını mümkün kılan hafif bir Arduino API’sidir.
+
+Kütüphane; sahada kullanılan IoT sensörlerinden, el terminallerine ve enerji tasarrufu gerektiren tüm taşınabilir cihazlara kadar geniş bir kullanım alanı sunar.
+
+## Özellikler
+
+Bu kütüphane sayesinde MAX17055 üzerinden aşağıdaki verilere kolayca erişebilirsin:
+
+- Pil gerilimi (Voltage mV)
+- Anlık akım (Current mA)
+- Şarj durumu (State of Charge – SOC %)
+- Sağlık durumu (State of Health – SOH %)
+- Kapsite tahmini (FullCapRep / Remaining Capacity)
+- Kararlı SoC ölçümü için hızlı filtrelenmiş veriler
+- Hızlı konfigürasyon & otomatik model ayarı
+- Alert / Interrupt takibi
+
+Tüm register erişimleri optimize edilmiştir ve mikrodenetleyici üzerinde minimum yük oluşturacak şekilde tasarlanmıştır.
+
+## Uygulama Senaryoları
+
+Bu kütüphane özellikle şu projelerde kritik fayda sağlar:
+
+- Taşınabilir IoT cihazları
+- Kablosuz sensör modülleri
+- Akıllı tarım sensörleri
+- LiPo ile çalışan el cihazları
+- Düşük güç modunda çalışan veri kaydediciler
+- Uzun süreli saha sistemlerinde pil sağlığı takibi
+
+Pil davranışının doğru analiz edilmesi; kullanım ömrünü uzatır, beklenmedik kapanmaları önler ve cihazın enerji yönetimini daha öngörülebilir hale getirir.
+
+## Kurulum
+
+### Arduino IDE
+
+1. Arduino IDE’de **Library Manager**’ı aç.  
+2. Arama kutusuna **“MAX17055”** yaz.  
+3. `MAX17055` (Author: *Günce Akkoyun*) kütüphanesini seçip **Install** de.  
+
+Alternatif kurulum:
+
+- GitHub’daki [Releases](https://github.com/akkoyun/MAX17055/releases) bölümünden `.zip` indir.  
+- **Sketch → Include Library → Add .ZIP Library…** ile projene ekle.
+
+### PlatformIO
+
+`platformio.ini` dosyana şu satırı eklemen yeterli:
+
+```ini
+lib_deps = akkoyun/MAX17055
+```
+
+> İstersen belirli bir sürüm kullanmak için @^1.0.0 gibi versiyon belirtebilirsin.
+
+## Temel Kullanım
+
+Örnek kod kütüphanenin çalışma mantığını hızlıca gösterir:
+
+```cpp
+#include <MAX17055.h>
+
+MAX17055 battery;
+
+void setup() {
+    Serial.begin(115200);
+    battery.begin();
+}
+
+void loop() {
+    Serial.print("Voltage: ");
+    Serial.print(battery.getVoltage());
+    Serial.println(" mV");
+
+    Serial.print("SOC: ");
+    Serial.print(battery.getSOC());
+    Serial.println(" %");
+
+    delay(1000);
+}
+```
+
+Kütüphane başlatıldığında MAX17055 register’ları otomatik olarak yapılandırılır ve kararlı ölçümler elde etmek için gerekli tüm hesaplamalar yapılır.
+
+## Gelişmiş Fonksiyonlar
+
+Bu kütüphanede sadece temel ölçümler değil, aynı zamanda aşağıdaki gelişmiş fonksiyonlar da bulunur:
+
+- ```getCurrent()``` — Anlık akım ölçümü
+- ```getTemperature()``` — Pil sıcaklığı
+- ```getFullCapacity()``` — Maksimum kapasite tahmini
+- ```getRemainingCapacity()``` — Kalan kapasite
+- ```getAVSOC()``` — Filtrelenmiş SoC (daha kararlı değerler)
+- ```setAlertThreshold()``` — Düşük pil alarmı ayarı
+
+Bu fonksiyonlar sayesinde pil takibi tamamen gömülü sistem üzerinde yapılabilir.
+
+## Katkı ve Geliştirme
+
+MAX17055, gerçek sahada kullanılan projelerden gelen ihtiyaçlara göre sürekli gelişen bir kütüphanedir. Kullanıcı geri bildirimleri yeni fonksiyonların eklenmesi ve mevcut yapının iyileştirilmesi için kritik öneme sahiptir.
+
+Katkı vermek istersen:
+- GitHub reposuna yıldız vererek projeyi destekleyebilirsin.
+- Issue açarak hata bildirebilir veya geliştirme önerisi paylaşabilirsin.
+- Pull request göndererek doğrudan koda katkıda bulunabilirsin.
+
+## Kullanım İzni
+
+MAX17055 kütüphanesini hem kişisel hem de ticari projelerinizde özgürce kullanabilirsiniz. Herhangi bir lisans kısıtı uygulanmamaktadır. Amacım, bu kütüphanenin mümkün olduğunca fazla gerçek dünya projesinde yer almasıdır. Özel bir entegrasyon ihtiyacınız, ticari bir planınız veya teknik bir sorunuz varsa bana e‑posta üzerinden her zaman ulaşabilirsiniz: **akkoyun@me.com** Geri bildirim göndermeniz veya kullanım senaryolarınızı paylaşmanız projeyi geliştirmem adına büyük katkı sağlar.
