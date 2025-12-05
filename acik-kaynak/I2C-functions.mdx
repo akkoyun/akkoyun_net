@@ -1,0 +1,190 @@
+---
+title: I2C Functions
+description: I2C cihazlar ve I2C multiplexer'larla çalışmayı basitleştiren yardımcı C++ kütüphanesi.
+sidebar_label: I2C Functions
+slug: /i2c-functions
+sidebar_position: 8
+github_url: https://github.com/akkoyun/I2C_Functions
+hide_title: false
+pagination_prev: null
+pagination_next: null
+tags:
+  - arduino
+  - avr
+  - i2c
+  - open-source
+---
+
+import OpenSourceLayout from '@site/src/layouts/OpenSourceLayout';
+
+<OpenSourceLayout>
+
+# I2C Functions Kütüphanesi
+
+**I2C Functions**, AVR tabanlı kartlarda (Arduino vb.) I2C haberleşmesini sadeleştirmek için yazdığım hafif bir yardımcı kütüphanedir.  
+Temel amaç; register okuma/yazma, çoklu okuma/yazma ve I2C multiplexer yönetimi gibi tekrarlayan işleri soyutlayıp sensör/sürücü kütüphanelerini daha okunabilir hale getirmek.
+
+Bu kütüphaneyi;
+
+- Tek bir I2C sensörle
+- Aynı hatta bağlı birden fazla cihazla
+- I2C multiplexer (örneğin TCA9548) üzerinden bağlı karmaşık topolojilerle
+
+çalışırken kullanabilirsin.
+
+## Temel Özellikler
+
+- **Basitleştirilmiş I2C API’si**  
+  Tek byte / çoklu byte register okuma-yazma fonksiyonları.
+- **I2C Multiplexer Desteği**  
+  Obje oluştururken multiplexer adresi ve kanalını tanımlayıp gerisini kütüphaneye bırakma.
+- **Hazır Adres Tanımları**  
+  Sık kullanılan bazı sensör ve entegreler için ön tanımlı I2C adresleri.
+- **Daha Temiz Sürücü Kodları**  
+  Her entegre için I2C ile uğraşmak yerine iş mantığına odaklanma.
+
+---
+
+## Nesne Oluşturma
+
+Kütüphanenin kalbi `I2C_Functions` sınıfı.  
+
+I2C multiplexer kullanıp kullanmama durumuna göre iki farklı kurulum yapabilirsin.
+
+```cpp
+#include <I2C_Functions.h>
+
+// I2C Multiplexer (örneğin TCA9548) ile kullanım
+// Adres: 0x40 olan bir sensör, MUX kanal 3 üzerinden bağlı
+I2C_Functions HDC2010(0x40, true, 3);
+
+// Multiplexer olmadan doğrudan I2C hattında kullanım
+I2C_Functions HDC2010_Direct(0x40);
+```
+
+Multiplexer kullanıyorsan, kütüphane her I2C işleminden önce ilgili kanalı otomatik seçer.
+Manuel kanal değiştirmekle uğraşmazsın.
+
+## Sık Kullanılan Fonksiyonlar
+
+**Register Okuma**
+
+Tek bir register’dan 1 byte veri okumak için:
+
+```cpp
+// 0x01 adresli register'dan tek byte oku
+uint8_t result = HDC2010.Read_Register(0x01);
+```
+
+**Register Yazma**
+
+Tek byte yazmak için:
+
+```cpp
+// 0x10 adresli register'a 0x22 değerini yaz
+HDC2010.Write_Register(0x10, 0x22, true); // son parametre debug çıktısı için
+```
+
+**Çoklu Register Okuma**
+
+Bir başlangıç adresinden itibaren birden fazla byte almak için:
+
+```cpp
+uint8_t data[4];
+
+// 0x00 adresinden itibaren 4 byte oku
+HDC2010.Read_Multiple_Register(0x00, data, 4);
+```
+
+16 bit adresli register yapıları için de çoklu okuma fonksiyonu mevcuttur:
+
+```cpp
+uint8_t data16[4];
+
+// 0x0001 adresinden itibaren 4 byte oku
+HDC2010.Read_Multiple_Register_u16(0x0001, data16, 4, true);
+```
+
+**Çoklu Register Yazma**
+
+```cpp
+uint8_t config[4] = {0x22, 0x33, 0x44, 0x55};
+
+// 0x10 adresli register'dan itibaren 4 byte yaz
+HDC2010.Write_Multiple_Register(0x10, config, 4);
+```
+
+**Komut Yazma**
+
+Bazı entegreler, register yerine doğrudan komut byte’ı bekler. Bunun için:
+
+```cpp
+// Tek baytlık komut
+HDC2010.Write_Command(0x22);
+
+// Çok baytlı komut
+uint8_t command[3] = {0xAA, 0xBB, 0xCC};
+HDC2010.Write_Multiple_Command(command, 3);
+```
+
+## I2C Multiplexer Yönetimi
+
+Multiplexer kullanan kartlarda kanal yönetimi için ayrı kod yazmak yerine, kütüphanenin sağladığı soyutlama kullanılabilir.
+
+```cpp
+// Obje oluştururken MUX bilgileri verilmiş olsun
+I2C_Functions Sensor(0x40, true, 3);
+
+// Gerekirse MUX kanalını elle yeniden set edebilirsin
+Sensor.Set_Mux_Channel();
+
+// Aktif MUX kanalını öğrenmek için:
+uint8_t channel = Sensor.Mux_Channel();
+```
+
+Bu yapı sayesinde, sürücü kütüphanelerinde I2C multiplexer detayı tamamen arka planda kalır.
+
+## Hazır Adres Tanımları
+
+Kütüphane içerisinde bazı entegreler için hazır adres makroları bulunur (örnek: TCA9548, RV3028, DS28C, MAX17055 vb.).
+Kendi kodunda istersen bu makroları kullanabilir, istersen de yeni cihaz adreslerini aynı mantıkla ekleyebilirsin:
+
+```cpp
+#define __I2C_Addr_HDC2010__   (uint8_t)0x40
+#define __I2C_Addr_MAX17055__  (uint8_t)0x36
+// ...
+```
+
+Bu sayede projeler arasında adres tipleri daha tutarlı ve okunaklı hale gelir.
+
+## Örnek Kullanım Senaryosu
+
+Basit bir sensör sürücüsünde I2C Functions kullanımı şu şekilde olabilir:
+
+```cpp
+#include <I2C_Functions.h>
+
+I2C_Functions Sensor(__I2C_Addr_HDC2010__);
+
+void setup() {
+  Wire.begin();
+  Serial.begin(115200);
+
+  if (!Sensor.Detect()) {
+    Serial.println("Sensör bulunamadı!");
+    while (1);
+  }
+
+  Serial.println("Sensör bulundu, başlatılıyor...");
+  // Burada initialize register ayarlarını yap
+}
+
+void loop() {
+  uint8_t temp_raw = Sensor.Read_Register(0x00);
+  // Ham veriyi gerçek sıcaklığa çevir, vb...
+}
+```
+
+Bu şekilde sürücü tarafında sadece sensörün mantığına odaklanıp, I2C trafiğini ve multiplexer detayını kütüphaneye bırakırsın.
+
+</OpenSourceLayout>
